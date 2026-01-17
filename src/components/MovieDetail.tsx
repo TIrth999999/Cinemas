@@ -137,20 +137,29 @@ const MovieDetail = () => {
           if (show.movieId !== mId) continue
 
           const dateObj = new Date(show.startTime)
-          const date = dateObj.toISOString().split('T')[0]
-          const time = dateObj.toISOString().split('T')[1].slice(0, 5)
 
-          if (!newDateTimeMap[date]) {
-            newDateTimeMap[date] = []
+          // Filter past dates (keep today and future)
+          const now = new Date()
+          const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+          const showDateZeroTime = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate())
+
+          if (showDateZeroTime < today) continue
+
+          const dateKey = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`
+
+          const time = dateObj.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+
+          if (!newDateTimeMap[dateKey]) {
+            newDateTimeMap[dateKey] = []
           }
 
-          const alreadyExists = newDateTimeMap[date].some(
+          const alreadyExists = newDateTimeMap[dateKey].some(
             t => t.showId === show.id
           )
 
 
           if (!alreadyExists) {
-            newDateTimeMap[date].push({
+            newDateTimeMap[dateKey].push({
               time,
               showId: show.id
             })

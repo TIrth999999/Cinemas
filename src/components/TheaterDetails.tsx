@@ -103,13 +103,24 @@ const TheaterDetails = () => {
                         const movie = movieMap.get(show.movieId)
                         if (!movie) continue
 
-                        const date = show.startTime.split('T')[0]
-                        const time = new Date(show.startTime).toLocaleTimeString([], {
+                        const dateObj = new Date(show.startTime)
+
+                        // Filter past dates
+                        const now = new Date()
+                        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                        const showDateZeroTime = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate())
+
+                        if (showDateZeroTime < today) continue
+
+                        const dateKey = `${dateObj.getFullYear()}-${String(dateObj.getMonth() + 1).padStart(2, '0')}-${String(dateObj.getDate()).padStart(2, '0')}`
+
+                        const time = dateObj.toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
+                            hour12: false
                         })
 
-                        if (!grouped[date]) grouped[date] = []
+                        if (!grouped[dateKey]) grouped[dateKey] = []
 
                         let movieEntry = grouped[date].find(
                             m => m.movieId === movie.id
@@ -229,13 +240,19 @@ const TheaterDetails = () => {
                             onClick={() => setActiveDate(date)}
                         >
                             <span className="month">
-                                {new Date(date).toLocaleDateString(undefined, { month: 'short' })}
+                                {(() => {
+                                    const [y, m, d] = date.split('-').map(Number)
+                                    return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short' })
+                                })()}
                             </span>
                             <span className="date">
-                                {new Date(date).getDate()}
+                                {date.split('-')[2]}
                             </span>
                             <span className="day">
-                                {new Date(date).toLocaleDateString(undefined, { weekday: 'short' })}
+                                {(() => {
+                                    const [y, m, d] = date.split('-').map(Number)
+                                    return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: 'short' })
+                                })()}
                             </span>
                         </button>
                     ))}
