@@ -122,7 +122,7 @@ const TheaterDetails = () => {
 
                         if (!grouped[dateKey]) grouped[dateKey] = []
 
-                        let movieEntry = grouped[date].find(
+                        let movieEntry = grouped[dateKey].find(
                             m => m.movieId === movie.id
                         )
 
@@ -134,7 +134,7 @@ const TheaterDetails = () => {
                                 categories: movie.category || [],
                                 times: [],
                             }
-                            grouped[date].push(movieEntry)
+                            grouped[dateKey].push(movieEntry)
                         }
 
                         movieEntry.times.push({
