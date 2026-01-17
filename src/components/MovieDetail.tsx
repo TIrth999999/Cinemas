@@ -237,7 +237,7 @@ const MovieDetail = () => {
                     <div key={i} className="date-card skeleton"></div>
                   ))
                 ) : Object.keys(dateTimeMap).length === 0 ? (
-                  <div className="no-results" style={{ color: '#fff', padding: '10px' }}>No shows available</div>
+                  <div className="no-results" style={{ color: '#000000ff', padding: '10px' }}>No shows available</div>
                 ) : (
                   Object.keys(dateTimeMap)
                     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort ascending
