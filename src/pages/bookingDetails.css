@@ -14,6 +14,16 @@
     padding: 20px;
 }
 
+@media (max-width: 480px) {
+    .booking-container {
+        padding: 10px;
+    }
+
+    .ticketCard {
+        padding: 20px;
+    }
+}
+
 /* Receipt Card */
 .ticketCard {
     background: white;

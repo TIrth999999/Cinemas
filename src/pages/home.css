@@ -134,15 +134,17 @@
     font-weight: 500;
 }
 
-/* Cards List - 4 Per Row, 80% Width */
+/* Cards List - Grid Layout */
 .cardsList {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--spacing-lg);
     width: 80%;
     margin: 0 auto;
     padding: 0;
     animation: fadeIn 0.6s ease-out 0.4s backwards;
+    justify-items: center;
+    /* Center cards in their cells */
 }
 
 /* Theater List - 80% Width */
@@ -159,8 +161,12 @@
 .cardsList .card {
     position: relative;
     cursor: pointer;
-    width: 20% !important;
-    margin: 20px;
+    width: 100% !important;
+    /* Fluid width */
+    max-width: 300px;
+    /* Prevent overstretching */
+    margin: 0;
+    /* Margin handled by grid gap */
     transition: transform var(--transition-normal);
 }
 
@@ -168,7 +174,7 @@
     transform: translateY(-5px);
 }
 
-/* Card Image - INCREASED TO 400px */
+/* Card Image */
 .cardsList .card img {
     width: 100%;
     height: 400px;
@@ -259,7 +265,14 @@
    ============================================ */
 
 /* Large Desktop */
-@media (min-width: 1400px) {
+@media (min-width: 1600px) {
+    .cardsList {
+        grid-template-columns: repeat(5, 1fr);
+        width: 85%;
+    }
+}
+
+@media (min-width: 1400px) and (max-width: 1599px) {
     .cardsList {
         grid-template-columns: repeat(4, 1fr);
     }
@@ -269,6 +282,13 @@
 @media (min-width: 1024px) and (max-width: 1399px) {
     .cardsList {
         grid-template-columns: repeat(4, 1fr);
+        gap: var(--spacing-md);
+        width: 90%;
+    }
+
+    .cardsList .card img,
+    .cardsList .card::before {
+        height: 380px;
     }
 }
 
@@ -276,45 +296,11 @@
 @media (min-width: 768px) and (max-width: 1023px) {
     .container {
         padding: var(--spacing-xl) var(--spacing-lg);
+        width: 90%;
     }
 
     .cardsList {
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing-lg);
-        width: 90%;
-    }
-
-    .theaterList {
-        width: 90%;
-    }
-
-    .cardsList .card img {
-        height: 350px;
-    }
-
-    .cardsList .card::before {
-        height: 350px;
-    }
-}
-
-/* Mobile Landscape / Small Tablet */
-@media (min-width: 481px) and (max-width: 767px) {
-    .container {
-        padding: var(--spacing-lg) var(--spacing-md);
-    }
-
-    .container h1 {
-        font-size: 32px;
-    }
-
-    .container .categoryBtn button {
-        padding: 12px 30px;
-        font-size: 14px;
-        margin-right: var(--spacing-md);
-    }
-
-    .cardsList {
-        grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-md);
         width: 95%;
     }
@@ -323,74 +309,108 @@
         width: 95%;
     }
 
-    .cardsList .card img {
-        height: 320px;
-    }
-
+    .cardsList .card img,
     .cardsList .card::before {
-        height: 320px;
-        font-size: 18px;
+        height: 350px;
     }
 }
 
-/* Mobile Portrait */
-@media (max-width: 480px) {
+/* Mobile Landscape / Small Tablet */
+@media (min-width: 550px) and (max-width: 767px) {
     .container {
-        padding: var(--spacing-md);
+        padding: var(--spacing-lg) var(--spacing-md);
+        width: 95%;
     }
 
     .container h1 {
-        font-size: 28px;
-        margin-bottom: var(--spacing-lg);
-    }
-
-    .container .categoryBtn {
-        margin-bottom: var(--spacing-lg);
+        font-size: 32px;
     }
 
     .container .categoryBtn button {
-        padding: 10px 24px;
+        padding: 10px 20px;
         font-size: 14px;
-        margin-right: var(--spacing-sm);
-        margin-bottom: var(--spacing-sm);
     }
 
     .cardsList {
         grid-template-columns: repeat(2, 1fr);
-        gap: var(--spacing-sm);
+        gap: var(--spacing-md);
         width: 100%;
+        padding: 0 var(--spacing-md);
     }
 
     .theaterList {
         width: 100%;
+        padding: 0 var(--spacing-md);
     }
 
-    .cardsList .card img {
-        height: 280px;
-    }
-
+    .cardsList .card img,
     .cardsList .card::before {
-        height: 280px;
-        font-size: 16px;
-    }
-
-    .cardsList .card h4 {
-        font-size: 14px;
-        margin-top: var(--spacing-sm);
+        height: 320px;
     }
 }
 
-/* Very Small Mobile */
-@media (max-width: 360px) {
+/* Mobile Portrait */
+@media (max-width: 549px) {
+    .container {
+        padding: var(--spacing-md);
+        width: 100%;
+    }
+
+    .controls-wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: var(--spacing-md);
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .search-box input {
+        width: 100%;
+    }
+
+    .search-box input:focus {
+        width: 100%;
+    }
+
+    .container .categoryBtn {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .container h1 {
+        font-size: 28px;
+        text-align: center;
+        margin-bottom: var(--spacing-lg);
+    }
+
     .cardsList {
         grid-template-columns: 1fr;
+        /* Single column for mobile */
+        gap: var(--spacing-lg);
+        width: 100%;
+        padding: 0 var(--spacing-lg);
     }
 
-    .cardsList .card img {
-        height: 320px;
+    .theaterList {
+        width: 100%;
+        padding: 0 var(--spacing-md);
     }
 
+    .cardsList .card {
+        max-width: 100%;
+        /* Use full width */
+    }
+
+    .cardsList .card img,
     .cardsList .card::before {
-        height: 320px;
+        height: 400px;
+        /* Taller images for single column */
+    }
+
+    .cardsList .card h4 {
+        font-size: 18px;
     }
 }

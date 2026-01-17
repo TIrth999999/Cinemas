@@ -1,0 +1,23 @@
+1. Add AI -> Will Seach for Movie Name and Reviews and show below the time fetched, and for theater list, it will show on the bar it self
+
+2. Add filter options in
+
+    Movie List
+    Theater List
+    History and Upcoming Ticket List
+    Inside a Theater -> Movie Search
+
+3. Filter by: Language, Format (2D/3D/IMAX/4DX), Genre, Price Range, Show Timing
+
+4. Add Share Via WhatsApp or Copylink button on ticket
+
+5. Add a profile icon where it shows
+
+    Email id 
+    Watchlist movie (add a star button on top of movie)
+    Favorite Theater (add a star button on top of theater)
+    
+
+6. * Optional to add AI Chatbot
+
+which basically resticted to the site data and available

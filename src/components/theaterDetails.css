@@ -568,7 +568,7 @@
   }
 
   .modal-actions {
-    flex-direction: column;
+    flex-direction: column-reverse;
   }
 
   .modal-actions button {

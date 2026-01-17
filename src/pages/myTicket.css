@@ -29,9 +29,13 @@
     border: 1px solid var(--primary-color);
     border-radius: 12px;
     padding: 24px;
-    width: 320px;
+    width: 100%;
+    /* Fluid width */
+    max-width: 350px;
+    /* Increased slightly for better breathability on desktop */
+    min-width: 280px;
+    /* Prevent being too skinny */
     background: #eef7fc;
-    /* Light blue background like screenshot */
     display: flex;
     flex-direction: column;
     gap: 20px;

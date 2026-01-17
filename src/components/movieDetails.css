@@ -43,6 +43,13 @@ body {
     font-weight: 700;
 }
 
+@media (max-width: 768px) {
+    .movieLeft h1 {
+        margin-top: 20px;
+        /* Reduced from 40px */
+    }
+}
+
 /* DATES SLIDER CONTAINER */
 .dates-container-wrapper {
     position: relative;
@@ -493,21 +500,86 @@ body {
 /* RESPONSIVE */
 @media (max-width: 768px) {
     .containerr {
-        flex-direction: column-reverse;
-        /* Movie details on top on mobile? Or simple stack */
+        flex-direction: column;
+        /* Stack vertically */
+        padding-top: 60px;
+        /* Match mobile navbar height */
     }
 
+    /* Unwrap children to let them participate in the main flex container */
     .movieLeft,
     .movieRight {
-        width: 100%;
-        padding: 20px;
+        display: contents;
     }
 
+    /* --- Visual Reordering --- */
+
+    /* 1. Back Button (First) */
+    .backBtn {
+        order: 1;
+        width: 100%;
+        padding: 10px 20px 0 20px;
+        /* Reduced top padding */
+        /* Add padding since wrapper is gone */
+    }
+
+    /* 2. Image (Second) */
+    .movieRight>img {
+        order: 2;
+        width: 100%;
+        height: auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    /* 3. Movie Details (Third) */
+    .movieRight>div:nth-child(2) {
+        order: 3;
+        padding: 0 20px 20px 20px;
+    }
+
+    /* 4. Dates (Fourth) */
+    .movieLeft>div:nth-child(2) {
+        order: 4;
+        padding: 0 20px;
+    }
+
+    /* 5. Theaters (Fifth) */
+    .movieLeft>div:nth-child(3) {
+        order: 5;
+        padding: 0 20px;
+    }
+
+    /* 6. Times (Sixth) */
+    .movieLeft>div:nth-child(4) {
+        order: 6;
+        padding: 0 20px 20px 20px;
+    }
+
+    /* 7. Booking Card (Last) */
+    .bookCard {
+        order: 100;
+        margin: 20px;
+    }
+
+    /* Reset Styles for unwrapped elements if needed */
     .movieRight {
         height: auto;
     }
 
     .movieLeft {
         height: auto;
+    }
+
+    /* Modal Button Reordering */
+    .seat-modal .modal-actions {
+        flex-direction: column-reverse;
+        /* Stack with Proceed (2nd child) on top */
+        gap: 15px;
+    }
+
+    .seat-modal .modal-actions button {
+        width: 100%;
+        margin: 0;
     }
 }
