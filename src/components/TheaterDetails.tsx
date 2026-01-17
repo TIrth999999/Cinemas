@@ -224,46 +224,56 @@ const TheaterDetails = () => {
                 </div>
 
                 {/* Date Slider */}
-                <div className="date-slider">
-                    <button
-                        className="arrow"
-                        onClick={goPrev}
-                        disabled={dateIndex === 0}
-                    >
-                        <i className="fas fa-chevron-left"></i>
-                    </button>
-
-                    {visibleDates.map(date => (
+                <div className="date-slider" style={allDates.length === 0 ? { justifyContent: 'center' } : {}}>
+                    {allDates.length > 0 && (
                         <button
-                            key={date}
-                            className={`date-btn ${activeDate === date ? 'active' : ''}`}
-                            onClick={() => setActiveDate(date)}
+                            className="arrow"
+                            onClick={goPrev}
+                            disabled={dateIndex === 0}
                         >
-                            <span className="month">
-                                {(() => {
-                                    const [y, m, d] = date.split('-').map(Number)
-                                    return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short' })
-                                })()}
-                            </span>
-                            <span className="date">
-                                {date.split('-')[2]}
-                            </span>
-                            <span className="day">
-                                {(() => {
-                                    const [y, m, d] = date.split('-').map(Number)
-                                    return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: 'short' })
-                                })()}
-                            </span>
+                            <i className="fas fa-chevron-left"></i>
                         </button>
-                    ))}
+                    )}
 
-                    <button
-                        className="arrow"
-                        onClick={goNext}
-                        disabled={dateIndex + 3 >= allDates.length}
-                    >
-                        <i className="fas fa-chevron-right"></i>
-                    </button>
+                    {allDates.length === 0 ? (
+                        <div className="no-results" style={{ color: '#000000', padding: '10px', fontSize: '16px' }}>
+                            No shows available
+                        </div>
+                    ) : (
+                        visibleDates.map(date => (
+                            <button
+                                key={date}
+                                className={`date-btn ${activeDate === date ? 'active' : ''}`}
+                                onClick={() => setActiveDate(date)}
+                            >
+                                <span className="month">
+                                    {(() => {
+                                        const [y, m, d] = date.split('-').map(Number)
+                                        return new Date(y, m - 1, d).toLocaleDateString(undefined, { month: 'short' })
+                                    })()}
+                                </span>
+                                <span className="date">
+                                    {date.split('-')[2]}
+                                </span>
+                                <span className="day">
+                                    {(() => {
+                                        const [y, m, d] = date.split('-').map(Number)
+                                        return new Date(y, m - 1, d).toLocaleDateString(undefined, { weekday: 'short' })
+                                    })()}
+                                </span>
+                            </button>
+                        ))
+                    )}
+
+                    {allDates.length > 0 && (
+                        <button
+                            className="arrow"
+                            onClick={goNext}
+                            disabled={dateIndex + 3 >= allDates.length}
+                        >
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                    )}
                 </div>
 
 
