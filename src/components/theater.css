@@ -1,0 +1,160 @@
+/* ============================================
+   THEATER COMPONENT STYLES - IMPROVED
+   ============================================ */
+
+.theater {
+    width: 100%;
+    padding: var(--spacing-xl);
+    border: 2px solid var(--primary-color);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+}
+
+.theater::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(16, 144, 223, 0.1),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.theater:hover::before {
+    left: 100%;
+}
+
+.theater:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-dark);
+}
+
+.theater div h2 {
+    color: var(--primary-color);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0 0 var(--spacing-sm) 0;
+    transition: color var(--transition-fast);
+}
+
+.theater:hover div h2 {
+    color: var(--primary-dark);
+}
+
+.theater div p {
+    color: var(--gray-dark);
+    font-size: 16px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.theater div p i {
+    color: var(--primary-color);
+}
+
+.theater .fa-arrow-right {
+    font-size: 24px;
+    color: var(--primary-color);
+    transition: all var(--transition-normal);
+    position: relative;
+    z-index: 2;
+}
+
+.theater:hover .fa-arrow-right {
+    transform: translateX(8px);
+    color: var(--primary-dark);
+}
+
+/* Cinema Graphic Styles */
+.theater-graphic {
+    position: absolute;
+    right: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60%;
+    height: 90%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    z-index: 0;
+    opacity: 0.9;
+    pointer-events: none;
+    transition: all var(--transition-normal);
+    mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
+    -webkit-mask-image: linear-gradient(to left, rgba(0, 0, 0, 1) 30%, rgba(0, 0, 0, 0) 100%);
+}
+
+.cinema-svg {
+    height: 100%;
+    width: 100%;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 1px rgba(16, 144, 223, 0.3));
+}
+
+.theater:hover .theater-graphic {
+    opacity: 0.7;
+    transform: translateY(-50%) scale(1.02);
+    right: 50px;
+    /* Subtle parallax effect */
+}
+
+.theater-content {
+    position: relative;
+    z-index: 2;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 768px) {
+    .theater {
+        padding: var(--spacing-lg);
+    }
+
+    .theater div h2 {
+        font-size: 20px;
+    }
+
+    .theater div p {
+        font-size: 14px;
+    }
+
+    .theater .fa-arrow-right {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .theater {
+        padding: var(--spacing-md);
+    }
+
+    .theater div h2 {
+        font-size: 18px;
+    }
+
+    .theater div p {
+        font-size: 13px;
+    }
+
+    .theater .fa-arrow-right {
+        font-size: 18px;
+    }
+}

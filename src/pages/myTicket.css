@@ -1,0 +1,288 @@
+/* PAGE CONTAINER */
+/* Using .container from existing global styles for consistency */
+
+.ticketList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0 50px;
+    justify-content: center;
+    /* Ensure list is centered/aligned with the main container width-wise if needed */
+    width: 80%;
+    margin: 0 auto;
+}
+
+.ticketList.hidden {
+    display: none;
+}
+
+.no-ticket {
+    text-align: center;
+    width: 100%;
+    color: var(--gray-dark);
+    margin-top: 50px;
+}
+
+/* TICKET CARD STYLE */
+/* TICKET CARD STYLE */
+.ticket-card {
+    border: 1px solid var(--primary-color);
+    border-radius: 12px;
+    padding: 24px;
+    width: 320px;
+    background: #eef7fc;
+    /* Light blue background like screenshot */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+}
+
+.ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(16, 144, 223, 0.15);
+}
+
+.ticket-header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ticket-label {
+    font-size: 14px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.ticket-date {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444;
+    /* Dark gray */
+}
+
+.ticket-movie {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.ticket-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444;
+    text-transform: uppercase;
+    line-height: 1.3;
+}
+
+.ticket-details {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+
+.detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.detail-item.right {
+    align-items: flex-end;
+}
+
+.ticket-type {
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.ticket-seats {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444;
+}
+
+.ticket-label-right {
+    font-size: 15px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.ticket-time {
+    font-size: 18px;
+    font-weight: 700;
+    color: #444;
+}
+
+.download-btn {
+    margin-top: 15px;
+    background: transparent;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 12px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    width: 100%;
+}
+
+.download-btn:hover {
+    background: var(--primary-color);
+    color: white !important;
+}
+
+.download-btn:active {
+    transform: translateY(0);
+}
+
+/* PDF TEMPLATE STYLES (Hidden on screen, visible in PDF) */
+.pdf-ticket-template {
+    width: 600px;
+    background: white;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.pdf-header {
+    background: #1090df;
+    color: white;
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pdf-logo {
+    font-size: 24px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pdf-logo i {
+    font-size: 28px;
+}
+
+.pdf-order-id {
+    font-size: 14px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.pdf-hero {
+    position: relative;
+    padding: 40px 30px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    overflow: hidden;
+    border-bottom: 2px dashed #ccc;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+}
+
+.pdf-hero-graphic {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 400px;
+    height: 200px;
+    opacity: 0.15;
+    color: #1090df;
+}
+
+.pdf-movie-info {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+.pdf-movie-info h1 {
+    font-size: 32px;
+    color: #1090df;
+    margin: 0;
+    text-transform: uppercase;
+    line-height: 1.1;
+    font-weight: 800;
+    max-width: 70%;
+}
+
+.pdf-movie-info p {
+    font-size: 18px;
+    color: #555;
+    margin-top: 8px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pdf-body {
+    padding: 30px;
+}
+
+.pdf-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+.pdf-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-col label {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.pdf-col span {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+}
+
+.pdf-footer {
+    padding: 20px 30px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.pdf-barcode {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: 2px;
+    height: 40px;
+    opacity: 0.8;
+}
+
+.pdf-footer p {
+    font-size: 11px;
+    color: #999;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}

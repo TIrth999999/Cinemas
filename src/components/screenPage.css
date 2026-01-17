@@ -1,0 +1,365 @@
+/* ============================================
+   SEAT SELECTION PAGE STYLES
+   ============================================ */
+
+/* Screen Container */
+.screen-container {
+    padding: var(--spacing-2xl) var(--spacing-xl);
+    width: 100%;
+    min-height: calc(100vh - 80px);
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* Screen Heading */
+.screen-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-2xl);
+    animation: slideDown 0.6s ease-out 0.2s backwards;
+}
+
+.screen-heading i {
+    font-size: 24px;
+    color: var(--primary-color);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    padding: var(--spacing-sm);
+    border-radius: 50%;
+}
+
+.screen-heading i:hover {
+    background: rgba(16, 144, 223, 0.1);
+    transform: translateX(-4px);
+}
+
+.screen-heading h2 {
+    font-size: clamp(28px, 4vw, 45px);
+    margin: 0;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+/* Seats Container */
+.seats {
+    width: 90%;
+    max-width: 800px;
+    margin: 0 auto;
+    margin-top: var(--spacing-2xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: slideUp 0.6s ease-out 0.3s backwards;
+}
+
+/* Seat Section */
+.seat-section {
+    width: 100%;
+    margin-bottom: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.seat-section h6 {
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+}
+
+.seat-section hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right,
+            transparent,
+            var(--primary-color),
+            transparent);
+    margin-bottom: var(--spacing-lg);
+}
+
+/* Seat Row */
+.seat-row {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    justify-content: center;
+}
+
+/* Individual Seat Button */
+.seat-row button {
+    padding: 10px 14px;
+    border-radius: var(--border-radius-sm);
+    border: 2px solid var(--primary-color);
+    background: var(--white);
+    color: var(--primary-color);
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+    box-shadow: var(--shadow-sm);
+    min-width: 45px;
+}
+
+.seat-row button:hover:not(:disabled) {
+    transform: scale(1.15);
+    box-shadow: var(--shadow-md);
+    background: var(--primary-light);
+    color: var(--white);
+    border-color: var(--primary-light);
+}
+
+/* Selected Seat */
+.seat-row button[style*="background-color: rgb(76, 175, 80)"],
+.seat-row button[style*="background-color:#4caf50"] {
+    background: var(--success-color) !important;
+    color: var(--white) !important;
+    border-color: var(--success-color) !important;
+    transform: scale(1.1);
+    animation: scaleIn 0.3s ease-out;
+}
+
+/* Booked/Disabled Seat */
+.seat-row button:disabled {
+    background: var(--gray-dark) !important;
+    color: var(--gray-medium) !important;
+    border-color: var(--gray-dark) !important;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
+}
+
+.seat-row button:disabled:hover {
+    transform: none;
+    box-shadow: var(--shadow-sm);
+}
+
+/* Theater Screen Indicator */
+.theater-screen {
+    width: 80%;
+    height: 8px;
+    background: linear-gradient(to bottom,
+            var(--gray-dark),
+            var(--gray-medium));
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    margin: var(--spacing-2xl) auto var(--spacing-md);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+.theater-screen::after {
+    content: '';
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    height: 2px;
+    background: linear-gradient(to right,
+            transparent,
+            rgba(255, 255, 255, 0.5),
+            transparent);
+}
+
+.seats>p {
+    color: var(--gray-dark);
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: var(--spacing-sm);
+    text-align: center;
+}
+
+/* Seats Left Counter */
+.seats-left {
+    font-size: 18px;
+    margin: var(--spacing-xl) 0;
+    color: var(--gray-dark);
+    font-weight: 600;
+    text-align: center;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.seats-left.remaining {
+    color: var(--error-color);
+    font-weight: 700;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Pay Button */
+.pay-btn {
+    margin: var(--spacing-xl) auto;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    padding: 16px 24px;
+    border-radius: var(--border-radius);
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.pay-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.pay-btn:hover:not(.disabled)::before {
+    width: 400px;
+    height: 400px;
+}
+
+.pay-btn:hover:not(.disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: var(--shadow-lg);
+}
+
+.pay-btn:active:not(.disabled) {
+    transform: translateY(-2px) scale(1);
+}
+
+/* Enabled Pay Button - No Animation */
+.pay-btn:not(.disabled) {
+    animation: none;
+}
+
+/* Disabled Pay Button */
+.pay-btn.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: var(--gray-medium);
+    animation: none;
+}
+
+/* Loading State */
+.loading {
+    padding: var(--spacing-2xl);
+    font-size: 18px;
+    text-align: center;
+    color: var(--primary-color);
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+    .screen-container {
+        padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .screen-heading h2 {
+        font-size: 32px;
+    }
+
+    .seats {
+        width: 95%;
+    }
+
+    .seat-section {
+        padding: var(--spacing-lg);
+    }
+
+    .seat-row button {
+        padding: 8px 12px;
+        min-width: 40px;
+        font-size: 11px;
+    }
+
+    .theater-screen {
+        width: 90%;
+    }
+
+    .pay-btn {
+        width: 95%;
+        font-size: 18px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .screen-container {
+        padding: var(--spacing-md);
+    }
+
+    .screen-heading {
+        gap: var(--spacing-md);
+    }
+
+    .screen-heading h2 {
+        font-size: 24px;
+    }
+
+    .seats {
+        width: 100%;
+        margin-top: var(--spacing-lg);
+    }
+
+    .seat-section {
+        padding: var(--spacing-md);
+    }
+
+    .seat-section h6 {
+        font-size: 16px;
+    }
+
+    .seat-row {
+        gap: 4px;
+    }
+
+    .seat-row button {
+        padding: 6px 8px;
+        min-width: 32px;
+        font-size: 10px;
+    }
+
+    .theater-screen {
+        width: 95%;
+        height: 6px;
+    }
+
+    .seats-left {
+        font-size: 16px;
+    }
+
+    .pay-btn {
+        width: 100%;
+        font-size: 16px;
+        padding: 14px 20px;
+    }
+}
+
+/* Very Small Mobile */
+@media (max-width: 360px) {
+    .seat-row button {
+        padding: 5px 6px;
+        min-width: 28px;
+        font-size: 9px;
+    }
+
+    .seat-row {
+        gap: 3px;
+    }
+}

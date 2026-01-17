@@ -1,0 +1,210 @@
+/* Main Container - Center the card */
+.booking-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* Sky blue gradient matching PaymentSuccess (from-white via-sky-50 to-sky-200) */
+    background: linear-gradient(35deg,
+            #1090DF 0%,
+            #eaf7fd 30%,
+            #ffffff 55%,
+            #e3f4fb 75%,
+            #1090DF 100%);
+    padding: 20px;
+}
+
+/* Receipt Card */
+.ticketCard {
+    background: white;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    /* Soft premium shadow */
+    border: 1px solid #E1E8ED;
+    position: relative;
+    /* Optional: Ticket cutouts if desired, but sticking to clean card for now */
+}
+
+/* Header */
+.ticketCard h2 {
+    color: var(--primary-color, #1090DF);
+    /* Brand Blue */
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+/* Sections */
+.ticket-section {
+    margin-bottom: 20px;
+}
+
+.ticket-section h3 {
+    color: #8899A6;
+    /* Gray Label */
+    font-size: 13px;
+    font-weight: 500;
+    margin: 0 0 6px 0;
+    text-transform: capitalize;
+}
+
+.ticket-section p {
+    color: #2c3e50;
+    /* Darker Value */
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Specific styling for Movie Title */
+.ticket-section.movie-title p {
+    font-size: 18px;
+    color: #9CA3AF;
+    /* Lighter text for the specific movie name shown in design or keep dark? Design shows Grayish "SPIDERMAN..." */
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/* Let's adjust to match design better */
+.ticket-section.movie-title h3 {
+    color: #555;
+    font-size: 14px;
+}
+
+.ticket-section.movie-title p {
+    color: #ccc;
+    /* Placeholder style, design shows "SPIDERMAN" in light gray? actually looks like #B0B0B0 */
+    color: #9CA3AF;
+}
+
+/* Date Styling */
+.ticket-section.date p {
+    color: #9CA3AF;
+    font-weight: 700;
+}
+
+/* Flex Row for Ticket/Hours */
+.ticket-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.ticket-row>div {
+    flex: 1;
+}
+
+.ticket-row>div:last-child {
+    text-align: right;
+}
+
+/* Divider */
+.ticket-divider {
+    border-top: 2px dashed #E1E8ED;
+    margin: 25px -30px;
+    /* Extend to edges */
+    position: relative;
+}
+
+.ticket-divider::before,
+.ticket-divider::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    width: 20px;
+    height: 20px;
+    background: #F0F4F8;
+    /* Match page bg */
+    border-radius: 50%;
+}
+
+.ticket-divider::before {
+    left: -10px;
+}
+
+.ticket-divider::after {
+    right: -10px;
+}
+
+
+/* Transaction Details */
+.transaction-header {
+    color: var(--primary-color, #1090DF);
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 15px;
+}
+
+.price-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+}
+
+.price-row.total {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: 700;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Footer Notice */
+.footer-notice {
+    font-size: 11px;
+    color: #ccc;
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 15px;
+}
+
+/* Buttons */
+.cancel-btn {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #E1E8ED;
+    background: white;
+    color: #9CA3AF;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.2s;
+}
+
+.cancel-btn:hover {
+    background: #f9fafb;
+    color: #666;
+}
+
+.proceed-btn {
+    width: 100%;
+    padding: 14px;
+    background: white;
+    /* Design shows white outline or filled? Let's check. 
+       Design shows: Main Button White/Blue Border text Blue? Or Filled Blue?
+       Image: "Total Pay 800 Proceed" -> Looks like White button with Blue border and Blue text.
+       "Cancel" -> White button with Gray border/text.
+    */
+    border: 1px solid var(--primary-color, #1090DF);
+    color: var(--primary-color, #1090DF);
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    margin-bottom: 15px;
+    transition: all 0.2s;
+}
+
+.proceed-btn:hover {
+    background: var(--primary-color, #1090DF);
+    color: white;
+}

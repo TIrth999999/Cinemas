@@ -1,0 +1,82 @@
+/* ============================================
+   SIGNUP PAGE STYLES
+   (Inherits from login.css styling)
+   ============================================ */
+
+/* Import login styles - signup uses same container structure */
+/* All styles from login.css apply here as well */
+
+/* Additional signup-specific adjustments */
+.loginRight h2 {
+  margin-bottom: var(--spacing-lg) !important;
+}
+
+/* Tighter spacing for multiple form fields */
+.loginRight input {
+  margin-bottom: var(--spacing-md) !important;
+}
+
+/* Password box specific positioning for signup */
+.passwordBox {
+  position: relative;
+  margin-bottom: var(--spacing-md);
+}
+
+.passwordBox input {
+  padding-right: 50px !important;
+}
+
+.passwordBox i {
+  position: absolute;
+  right: 16px !important;
+  top: 50% !important;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--gray-medium);
+  font-size: 18px;
+  transition: all var(--transition-normal);
+  z-index: 10;
+}
+
+.passwordBox i:hover {
+  color: var(--primary-color);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.passwordBox i.active {
+  color: var(--primary-color);
+}
+
+/* Signup button spacing */
+.loginRight button {
+  margin-top: var(--spacing-xl) !important;
+  width: 100% !important;
+}
+
+/* Login link styling */
+.loginRight a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.loginRight a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  transition: width var(--transition-normal);
+}
+
+.loginRight a:hover {
+  color: var(--primary-dark);
+}
+
+.loginRight a:hover::after {
+  width: 100%;
+}

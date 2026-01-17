@@ -1,0 +1,346 @@
+.camera-loader-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    scale: .8
+}
+
+.camera-loader-wrapper.intro-mode {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 9999;
+    scale: 1;
+    overflow: hidden;
+    animation: bgFlicker .15s infinite
+}
+
+.intro-stack {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 36px
+}
+
+.dial-wrapper {
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    background: #cfcfcf;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, .6);
+    position: relative;
+    overflow: hidden;
+    font-family: Courier New, monospace;
+    filter: blur(.3px)
+}
+
+.cross-h,
+.cross-v {
+    position: absolute;
+    background: rgba(0, 0, 0, .5)
+}
+
+.cross-h {
+    top: 50%;
+    width: 100%;
+    height: 2px
+}
+
+.cross-v {
+    left: 50%;
+    height: 100%;
+    width: 2px
+}
+
+.ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, .5)
+}
+
+.r1 {
+    inset: 20px
+}
+
+.r2 {
+    inset: 40px;
+    border-color: rgba(0, 0, 0, .4)
+}
+
+.dial-count {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 120px;
+    font-weight: 700;
+    color: #000;
+    animation: numberFlicker .12s infinite
+}
+
+.camera-assembly {
+    width: 200px;
+    height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10
+}
+
+.insta-flip {
+    transform: scaleX(-1)
+}
+
+.reels {
+    display: flex;
+    gap: 20px;
+    margin: -15px 0 0 40px
+}
+
+.reel {
+    width: 50px;
+    height: 50px;
+    border: 4px solid #666;
+    border-radius: 50%;
+    background: #bdbdbd;
+    position: relative;
+    animation: spin 2s linear infinite;
+    box-shadow: inset 0 0 8px rgba(0, 0, 0, .7), 0 3px 6px rgba(0, 0, 0, .5)
+}
+
+.reel.fast-spin {
+    animation: spin .8s linear infinite
+}
+
+.reel:before {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: #444;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 3px #000;
+    z-index: 3
+}
+
+.reel:after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 6%, transparent 5px, transparent 6px), radial-gradient(circle at 85% 25%, transparent 5px, transparent 6px), radial-gradient(circle at 85% 75%, transparent 5px, transparent 6px), radial-gradient(circle at 50% 94%, transparent 5px, transparent 6px), radial-gradient(circle at 15% 75%, transparent 5px, transparent 6px), radial-gradient(circle at 15% 25%, transparent 5px, transparent 6px);
+    z-index: 2
+}
+
+.camera-main {
+    display: flex;
+    align-items: center
+}
+
+.insta-body {
+    width: 120px;
+    height: 90px;
+    border-radius: 22px;
+    background: #222;
+    position: relative;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, .6)
+}
+
+.insta-lens {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #111;
+    border: 4px solid #444;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: inset 0 0 8px #000
+}
+
+.insta-flash {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #777;
+    position: absolute;
+    top: 14px;
+    right: 14px
+}
+
+.light-beam {
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top: 60px solid transparent;
+    border-bottom: 60px solid transparent;
+    border-left: 320px solid rgba(255, 255, 255, .25);
+    filter: blur(12px);
+    opacity: 0
+}
+
+.intro-mode .light-beam {
+    animation: beamFlicker 4s infinite
+}
+
+.loading-text {
+    margin-top: 20px;
+    color: #fff;
+    letter-spacing: 2px;
+    animation: textFlicker 1.5s infinite;
+    font-family: Courier New, monospace
+}
+
+.film-grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 20;
+    opacity: .18;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    animation: grainMove .4s steps(6) infinite
+}
+
+.flicker-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    background: rgba(255, 255, 255, .04);
+    animation: screenFlicker .12s infinite;
+    pointer-events: none
+}
+
+.vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 25;
+    background: radial-gradient(circle, transparent 45%, #000 100%);
+    opacity: .85
+}
+
+.scratch-line {
+    position: fixed;
+    top: 0;
+    left: 20%;
+    width: 1px;
+    height: 100%;
+    background: rgba(255, 255, 255, .25);
+    z-index: 26;
+    animation: scratch 2s linear infinite
+}
+
+.scratch-line:nth-child(2) {
+    left: 70%;
+    animation-duration: 3.5s
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+@keyframes beamFlicker {
+
+    0%,
+    100% {
+        opacity: 0
+    }
+
+    10%,
+    90% {
+        opacity: .7
+    }
+}
+
+@keyframes grainMove {
+    to {
+        transform: translate(12px, 12px)
+    }
+}
+
+@keyframes scratch {
+    0% {
+        opacity: 0
+    }
+
+    10% {
+        opacity: 1
+    }
+
+    20% {
+        opacity: 0;
+        transform: translateX(60px)
+    }
+
+    100% {
+        transform: translateX(120px);
+        opacity: 0
+    }
+}
+
+@keyframes bgFlicker {
+    0% {
+        filter: brightness(.95)
+    }
+
+    50% {
+        filter: brightness(1)
+    }
+
+    100% {
+        filter: brightness(.92)
+    }
+}
+
+@keyframes screenFlicker {
+    0% {
+        opacity: .04
+    }
+
+    50% {
+        opacity: .08
+    }
+
+    100% {
+        opacity: .03
+    }
+}
+
+@keyframes numberFlicker {
+    0% {
+        opacity: .9
+    }
+
+    50% {
+        opacity: 1
+    }
+
+    100% {
+        opacity: .85
+    }
+}
+
+@keyframes textFlicker {
+
+    0%,
+    100% {
+        opacity: .6
+    }
+
+    50% {
+        opacity: 1
+    }
+}

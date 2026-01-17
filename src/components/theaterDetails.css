@@ -1,0 +1,577 @@
+/* ============================================
+   THEATER DETAILS PAGE STYLES
+   ============================================ */
+
+/* Theater Container */
+.theater-container {
+  padding: var(--spacing-2xl) 0;
+  /* Remove horizontal padding on main container */
+  width: 90%;
+  /* Use percentage width */
+  max-width: 1600px;
+  /* Allow it to grow wider */
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
+  min-height: calc(100vh - 80px);
+}
+
+/* Theater Header */
+.theater-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-2xl);
+  animation: slideDown 0.6s ease-out 0.2s backwards;
+}
+
+.theater-header .back-icon {
+  font-size: 24px;
+  color: var(--primary-color);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  padding: var(--spacing-sm);
+  border-radius: 50%;
+}
+
+.theater-header .back-icon:hover {
+  background: rgba(16, 144, 223, 0.1);
+  transform: translateX(-4px);
+}
+
+.theater-header h1 {
+  color: var(--primary-color);
+  font-size: clamp(28px, 4vw, 36px);
+  margin: 0;
+  font-weight: 700;
+}
+
+.theater-header p {
+  color: var(--gray-dark);
+  font-size: 16px;
+  margin: var(--spacing-xs) 0 0 0;
+}
+
+/* Date Slider - Square Boxes */
+.date-slider {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  margin: var(--spacing-xl) 0;
+  padding: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  animation: slideUp 0.6s ease-out 0.3s backwards;
+}
+
+.date-slider .arrow {
+  background: var(--primary-color);
+  color: var(--white);
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--border-radius);
+  font-size: 24px;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-sm);
+  text-align: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.date-slider .arrow:hover:not(:disabled) {
+  background: var(--primary-dark);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.date-slider .arrow:disabled {
+  background: var(--gray-light);
+  color: var(--gray-medium);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Date Button - Square Box */
+.date-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  /* Fixed width */
+  height: 75px;
+  /* Fixed height to make it square */
+  padding: var(--spacing-xs);
+  border: 2px solid var(--gray-light);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.date-btn:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.date-btn.active {
+  border-color: var(--primary-color);
+  background: var(--primary-color);
+  color: var(--white);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
+}
+
+.date-btn .day {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.date-btn .date {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 2px 0;
+}
+
+.date-btn .month {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+/* Movie Row */
+.movie-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+  animation: slideUp 0.5s ease-out backwards;
+}
+
+.movie-row:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.movie-row:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.movie-row:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.movie-row:nth-child(n+4) {
+  animation-delay: 0.4s;
+}
+
+.movie-row:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Movie Info */
+.movie-info {
+  flex: 1;
+}
+
+.movie-info h3 {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.movie-info p {
+  color: var(--gray-dark);
+  font-size: 14px;
+  margin: 0 0 var(--spacing-md) 0;
+}
+
+/* Tags Container */
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: var(--spacing-md);
+}
+
+.tag {
+  padding: 6px 14px;
+  border-radius: 50px;
+  /* Pill shape */
+  font-size: 13px;
+  font-weight: 600;
+  transition: all var(--transition-normal);
+  display: inline-block;
+}
+
+/* Language Tags - Filled Blue */
+.tag.language {
+  background: var(--primary-color);
+  color: var(--white);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 2px 4px rgba(16, 144, 223, 0.2);
+}
+
+.tag.language:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+/* Category Tags - Glassmorphism with Dynamic Colors */
+.tag.category {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--cat-color, #555);
+  border: 1px solid var(--cat-color, #ccc);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  font-weight: 700;
+}
+
+.tag.category:hover {
+  background: var(--cat-color);
+  color: var(--white);
+  border-color: var(--cat-color);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px var(--cat-bg);
+}
+
+/* Time Slots */
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-md);
+}
+
+.time {
+  padding: 10px 20px;
+  border: 2px solid var(--gray-light);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  color: var(--gray-dark);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.time:hover {
+  border-color: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.time.active {
+  background: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+  transform: scale(1.05);
+}
+
+/* Book Now Button */
+.book-now {
+  padding: 12px 32px;
+  border: 2px solid var(--primary-color);
+  background: transparent;
+  color: var(--primary-color);
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+  margin-left: var(--spacing-lg);
+}
+
+.book-now::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-color);
+  transition: left var(--transition-normal);
+  z-index: -1;
+}
+
+.book-now:hover::before {
+  left: 0;
+}
+
+.book-now:hover {
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.book-now:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: var(--gray-medium);
+  color: var(--gray-medium);
+}
+
+.book-now:disabled:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Seat Selection Modal */
+.seat-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: var(--z-modal);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.seat-modal {
+  background: var(--white);
+  padding: var(--spacing-2xl);
+  border-radius: var(--border-radius-lg);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: var(--shadow-xl);
+  animation: slideUp 0.4s ease-out;
+}
+
+.seat-modal h3 {
+  color: var(--primary-color);
+  font-size: 24px;
+  margin-bottom: var(--spacing-xl);
+  font-weight: 700;
+}
+
+/* Seat Options */
+.seat-options {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-xl);
+}
+
+.seat-options button {
+  padding: 16px;
+  border: 2px solid var(--gray-light);
+  border-radius: var(--border-radius);
+  background: var(--white);
+  color: var(--gray-dark);
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+}
+
+.seat-options button:hover {
+  border-color: var(--primary-light);
+  transform: scale(1.1);
+  box-shadow: var(--shadow-md);
+}
+
+.seat-options button.active {
+  background: var(--primary-color);
+  color: var(--white);
+  border-color: var(--primary-color);
+  transform: scale(1.15);
+  box-shadow: var(--shadow-md);
+}
+
+/* Modal Actions */
+.modal-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  justify-content: center;
+}
+
+.modal-actions button {
+  padding: 14px 32px;
+  border-radius: var(--border-radius);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  box-shadow: var(--shadow-sm);
+  border: none;
+}
+
+.modal-actions .cancel {
+  background: var(--gray-light);
+  color: var(--gray-dark);
+}
+
+.modal-actions .cancel:hover {
+  background: var(--gray-medium);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.modal-actions .proceed {
+  background: var(--primary-color);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.modal-actions .proceed::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.modal-actions .proceed:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.modal-actions .proceed:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .theater-container {
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  .theater-header h1 {
+    font-size: 28px;
+  }
+
+  .date-slider {
+    padding: var(--spacing-md);
+    gap: var(--spacing-sm);
+  }
+
+  .date-btn {
+    min-width: 70px;
+    padding: var(--spacing-sm);
+  }
+
+  .movie-row {
+    flex-direction: column;
+    padding: var(--spacing-lg);
+  }
+
+  .book-now {
+    width: 100%;
+    margin-left: 0;
+    margin-top: var(--spacing-md);
+  }
+
+  .seat-options {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-sm);
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .theater-container {
+    padding: var(--spacing-md);
+  }
+
+  .theater-header {
+    gap: var(--spacing-md);
+  }
+
+  .theater-header h1 {
+    font-size: 24px;
+  }
+
+  .date-slider {
+    gap: var(--spacing-xs);
+  }
+
+  .date-btn {
+    min-width: 60px;
+    padding: var(--spacing-xs);
+  }
+
+  .date-btn .date {
+    font-size: 20px;
+  }
+
+  .movie-row {
+    padding: var(--spacing-md);
+  }
+
+  .movie-info h3 {
+    font-size: 18px;
+  }
+
+  .time-slots {
+    gap: var(--spacing-xs);
+  }
+
+  .time {
+    padding: 8px 16px;
+    font-size: 12px;
+  }
+
+  .seat-modal {
+    padding: var(--spacing-xl);
+    width: 95%;
+  }
+
+  .seat-modal h3 {
+    font-size: 20px;
+  }
+
+  .seat-options {
+    grid-template-columns: repeat(5, 1fr);
+  }
+
+  .seat-options button {
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  .modal-actions {
+    flex-direction: column;
+  }
+
+  .modal-actions button {
+    width: 100%;
+  }
+}

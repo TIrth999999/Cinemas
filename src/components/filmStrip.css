@@ -1,0 +1,105 @@
+.film-strip-container {
+    position: relative;
+    background: var(--primary-color, #1090DF);
+    /* Blue background */
+    padding: 16px 0;
+    /* Increased height via padding */
+    width: fit-content;
+    min-width: 300px;
+    max-width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 12px rgba(16, 144, 223, 0.3);
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    /* margin: auto; */
+    /* Slight radius */
+}
+
+/* The sprockets/perforations */
+.film-perforations {
+    position: absolute;
+    left: 0;
+    width: 200%;
+    /* Wider to allow scrolling */
+    height: 16px;
+    /* Smaller holes */
+    background-image: linear-gradient(to right,
+            transparent 50%,
+            rgba(255, 255, 255, 0.9) 50%);
+    background-size: 30px 100%;
+    /* 15px hole, 15px space */
+    /* This creates the dashed look: | | | | | */
+    /* Wait, linear-gradient usually fills. Let's precise it:
+       Rectangle holes are typically white on black film (if light shines through) 
+       or black on transparent. 
+       Let's assume the strip is black, and holes are white/transparent.
+    */
+    background:
+        repeating-linear-gradient(90deg,
+            rgba(255, 255, 255, 0.8) 0px,
+            rgba(255, 255, 255, 0.8) 8px,
+            transparent 8px,
+            transparent 16px);
+    opacity: 0.9;
+}
+
+.film-perforations.top {
+    top: 4px;
+}
+
+.film-perforations.bottom {
+    bottom: 4px;
+}
+
+/* Content Area */
+.film-content {
+    position: relative;
+    z-index: 1;
+    padding: 0 20px;
+    min-height: 40px;
+    /* Reduced height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    /* Transparent to show blue */
+    color: white;
+}
+
+/* Animations */
+@keyframes rollLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-24px);
+    }
+
+    /* Move by one cycle size */
+}
+
+@keyframes rollRight {
+    0% {
+        transform: translateX(-24px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.animate-left {
+    animation: rollLeft 0.5s linear infinite;
+}
+
+.animate-right {
+    animation: rollRight 0.5s linear infinite;
+}
+
+.film-strip-container h6 {
+    margin: auto;
+}

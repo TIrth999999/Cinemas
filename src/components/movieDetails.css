@@ -1,0 +1,513 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.containerr {
+    width: 100%;
+    display: flex;
+    min-height: 100vh;
+    padding-top: 80px;
+    /* Navbar space */
+}
+
+/* LEFT SECTION */
+.movieLeft {
+    width: 60%;
+    padding: 0 50px 50px 100px;
+    height: auto;
+    overflow-y: auto;
+}
+
+.backBtn {
+    cursor: pointer;
+    font-size: 16px;
+    color: var(--gray-medium);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.backBtn:hover {
+    color: var(--primary-color);
+}
+
+.movieLeft h1 {
+    color: var(--primary-color);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* DATES SLIDER CONTAINER */
+.dates-container-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* DATES SLIDER - NEW */
+.dates {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    /* Increase vertical padding to prevent hover cutoff */
+    padding: 10px 5px 20px 5px;
+    width: 100%;
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar IE/Edge */
+    scroll-behavior: smooth;
+}
+
+.dates::-webkit-scrollbar {
+    display: none;
+    /* Hide scrollbar Chrome/Safari */
+}
+
+/* SCROLL BUTTONS */
+.date-scroll-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid var(--gray-light);
+    background: white;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.2s;
+    flex-shrink: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.date-scroll-btn:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.date-scroll-btn.left {
+    margin-right: 10px;
+}
+
+.date-scroll-btn.right {
+    margin-left: 10px;
+}
+
+/* SQUARE DATE CARD */
+.date-card {
+    min-width: 80px;
+    height: 80px;
+    border: 2px solid var(--gray-light);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.date-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(16, 144, 223, 0.1);
+}
+
+.date-card.activee {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 144, 223, 0.3);
+}
+
+.date-month {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.date-day {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.date-weekday {
+    font-size: 12px;
+    opacity: 0.8;
+}
+
+/* THEATER LIST */
+.theaters {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allow tags to wrap */
+    gap: 12px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.theaters p {
+    padding: 12px 16px;
+    border: 1px solid var(--gray-light);
+    border-radius: 10px;
+    /* Requested change to 10px */
+    margin: 0;
+    font-weight: 500;
+    transition: all 0.3s;
+    background: white;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    /* Space between icon and text */
+    font-size: 14px;
+    color: var(--gray-dark);
+}
+
+.theaters p i {
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+.theaters p:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.theaters p.activee {
+    border-color: var(--primary-color);
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(16, 144, 223, 0.25);
+}
+
+.theaters p.activee i {
+    color: white;
+    opacity: 1;
+}
+
+.theaters p.activee::before {
+    content: none;
+    /* Remove previous checkmark */
+}
+
+/* SKELETON LOADING */
+.skeleton {
+    background: #e0e0e0;
+    /* Darker grey for visibility */
+    position: relative;
+    overflow: hidden;
+    border-color: transparent !important;
+}
+
+.skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.5) 50%,
+            rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-100%);
+    animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+
+    100% {
+        transform: translateX(10%);
+    }
+}
+
+.theater-tag.skeleton {
+    display: inline-block;
+    border-radius: 10px;
+    /* Match new border radius */
+    margin-bottom: 10px;
+    background: #d0d0d0;
+    /* Even darker for theater tags to stand out */
+}
+
+/* TIME SLOTS */
+.times {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.times span {
+    border: 1px solid var(--gray-light);
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s;
+    font-weight: 500;
+}
+
+.times span:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.times span.activee {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    color: white;
+}
+
+/* RIGHT SECTION */
+.movieRight {
+    width: 40%;
+    /* Fixed padding to avoid content cutoff */
+    padding: 20px 40px 40px 0;
+    position: relative;
+    /* Optional: making it sticky if left side scrolls long */
+    display: flex;
+    flex-direction: column;
+}
+
+.movieRight img {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.movieRight h1 {
+    font-size: 28px;
+    color: var(--black);
+    margin: 0 0 10px 0;
+}
+
+.movieRight>p {
+    color: var(--gray-dark);
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.otherDetail,
+.otherDetail2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    color: var(--gray-dark);
+}
+
+.otherDetail b,
+.otherDetail2 b {
+    color: var(--black);
+    min-width: 80px;
+}
+
+.otherDetail p,
+.otherDetail2 p {
+    margin: 0;
+}
+
+/* BOOKING CARD */
+.bookCard {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    /* Soft shadow */
+    margin-top: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.bookCard h1 {
+    font-size: 20px;
+    margin-bottom: 5px;
+    color: var(--primary-color);
+}
+
+.bookCard h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 10px 0 5px 0;
+    color: var(--black);
+}
+
+.bookCard p {
+    margin: 0;
+    color: var(--gray-dark);
+    font-size: 14px;
+}
+
+.bookCard button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 20px;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 12px rgba(16, 144, 223, 0.2);
+}
+
+.bookCard button:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(16, 144, 223, 0.3);
+}
+
+/* MODAL STYLES */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s;
+}
+
+.modalContent {
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    animation: scaleIn 0.3s;
+}
+
+.modalContent h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.seatBox {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.seatBox button {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid var(--gray-light);
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--gray-dark);
+    font-weight: 600;
+    margin: 0;
+    /* Override generic margin */
+}
+
+.seatBox button:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.seatBox button:focus {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.modalActions {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.modalActions button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.modalActions button:last-child {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+}
+
+.closeBtn {
+    background: transparent;
+    border: 1px solid var(--gray-light);
+    color: var(--gray-dark);
+}
+
+.closeBtn:hover {
+    background: var(--gray-light);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .containerr {
+        flex-direction: column-reverse;
+        /* Movie details on top on mobile? Or simple stack */
+    }
+
+    .movieLeft,
+    .movieRight {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .movieRight {
+        height: auto;
+    }
+
+    .movieLeft {
+        height: auto;
+    }
+}
