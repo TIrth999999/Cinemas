@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useCallback, type ReactNode } from 'react'
+import { createContext, useContext, useCallback, type ReactNode } from 'react'
 import toast from 'react-hot-toast'
 
 type ToastType = 'success' | 'error' | 'info' | 'warning'

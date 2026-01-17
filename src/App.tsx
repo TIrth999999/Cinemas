@@ -4,14 +4,13 @@ import Signup from './pages/Signup'
 import Home from './pages/Home'
 import MyTicket from './pages/MyTicket'
 import './App.css'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 import MovieDetail from './components/MovieDetail'
 import ScreenPage from './components/ScreenPage'
 import BookingDetails from './pages/BookingDetails'
 import TheaterDetails from './components/TheaterDetails'
 import PaymentSuccess from './components/PaymentSuccess'
-import PaymentCancel from './components/PaymentFailure'
 import TicketPage from './components/Ticket'
 import PaymentFailure from './components/PaymentFailure'
 import Ticket from './components/Ticket'
@@ -22,7 +21,6 @@ function App() {
     // Skip splash if already logged in (token exists)
     return !localStorage.getItem('accessToken')
   })
-  const location = useLocation()
 
   // Simulate initial app load check (optional: use session storage to show only once per session)
   useEffect(() => {
