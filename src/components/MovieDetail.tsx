@@ -224,23 +224,31 @@ const MovieDetail = () => {
           <div>
             <h1>Date</h1>
             <div className='dates-container-wrapper'>
-              <button className="date-scroll-btn left" onClick={() => scrollDates('left')}>
-                <i className="fas fa-chevron-left"></i>
-              </button>
-              <div className="dates" ref={datesContainerRef}>
+              {Object.keys(dateTimeMap).length > 0 && (
+                <button className="date-scroll-btn left" onClick={() => scrollDates('left')}>
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+              )}
+
+              <div className="dates" ref={datesContainerRef} style={Object.keys(dateTimeMap).length === 0 && !isTimesLoading ? { justifyContent: 'center' } : {}}>
                 {isTimesLoading ? (
                   // Skeleton for Dates - Render only if loading
                   Array(5).fill(0).map((_, i) => (
                     <div key={i} className="date-card skeleton"></div>
                   ))
+                ) : Object.keys(dateTimeMap).length === 0 ? (
+                  <div className="no-results" style={{ color: '#fff', padding: '10px' }}>No shows available</div>
                 ) : (
                   Object.keys(dateTimeMap)
                     .sort((a, b) => new Date(a).getTime() - new Date(b).getTime()) // Sort ascending
                     .map(date => {
-                      const d = new Date(date);
-                      const day = d.toLocaleDateString('en-US', { day: 'numeric' });
-                      const weekday = d.toLocaleDateString('en-US', { weekday: 'short' });
-                      const month = d.toLocaleDateString('en-US', { month: 'short' });
+                      // Manual parse to ensure local time
+                      const [y, m, d] = date.split('-').map(Number)
+                      const dateObj = new Date(y, m - 1, d)
+
+                      const day = dateObj.getDate()
+                      const weekday = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+                      const month = dateObj.toLocaleDateString('en-US', { month: 'short' });
 
                       return (
                         <div
@@ -256,9 +264,12 @@ const MovieDetail = () => {
                     })
                 )}
               </div>
-              <button className="date-scroll-btn right" onClick={() => scrollDates('right')}>
-                <i className="fas fa-chevron-right"></i>
-              </button>
+
+              {Object.keys(dateTimeMap).length > 0 && (
+                <button className="date-scroll-btn right" onClick={() => scrollDates('right')}>
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              )}
             </div>
           </div>
           <div>
