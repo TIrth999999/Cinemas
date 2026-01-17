@@ -46,7 +46,7 @@ const Signup = () => {
 
         try {
             const res = await fetch(
-                "http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/auth/signup",
+                "/api/auth/signup",
                 {
                     method: "POST",
                     headers: {

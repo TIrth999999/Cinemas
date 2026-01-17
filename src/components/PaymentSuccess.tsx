@@ -28,7 +28,7 @@ const PaymentSuccess = () => {
         const verifyPayment = async () => {
             try {
                 const res = await fetch(
-                    `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/payments/verify?session_id=${sessionId}`
+                    `/api/payments/verify?session_id=${sessionId}`
                 )
 
                 if (res.ok) {
@@ -48,7 +48,7 @@ const PaymentSuccess = () => {
                     const token = localStorage.getItem('accessToken')
                     if (!token) throw new Error("No token for fallback")
 
-                    const orderRes = await fetch("http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/orders", {
+                    const orderRes = await fetch("/api/orders", {
                         headers: { "Authorization": `Bearer ${token}` }
                     })
 

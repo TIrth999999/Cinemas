@@ -57,7 +57,7 @@ const MovieDetail = () => {
       setIsMovieLoading(true);
       try {
         const res = await fetch(
-          `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/movies/${movieId}`,
+          `/api/movies/${movieId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -111,7 +111,7 @@ const MovieDetail = () => {
 
     try {
       const res = await fetch(
-        `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/theaters/${tId}/screens`,
+        `/api/theaters/${tId}/screens`,
         { headers: { Authorization: `Bearer ${token}` } }
       )
 
@@ -121,7 +121,7 @@ const MovieDetail = () => {
 
       const screenRequests = screens.map((screen: any) =>
         fetch(
-          `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/screens/${screen.id}`,
+          `/api/screens/${screen.id}`,
           { headers: { Authorization: `Bearer ${token}` } }
         ).then(r => r.ok ? r.json() : null)
       )

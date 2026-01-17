@@ -54,7 +54,7 @@ const TheaterDetails = () => {
                 // 0. Fetch theater details if missing
                 if (theaterDetails.name === 'Theater') {
                     const theaterRes = await fetch(
-                        `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/theaters/${theaterId}`,
+                        `/api/theaters/${theaterId}`,
                         { headers: { Authorization: `Bearer ${token}` } }
                     )
                     const theaterData = await theaterRes.json()
@@ -68,7 +68,7 @@ const TheaterDetails = () => {
 
                 // 1. Fetch movies in theater
                 const moviesRes = await fetch(
-                    `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/theaters/${theaterId}/movies`,
+                    `/api/theaters/${theaterId}/movies`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
                 const moviesData = await moviesRes.json()
@@ -78,7 +78,7 @@ const TheaterDetails = () => {
 
                 // 2. Fetch screens
                 const screensRes = await fetch(
-                    `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/theaters/${theaterId}/screens`,
+                    `/api/theaters/${theaterId}/screens`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
                 const screens = await screensRes.json()
@@ -88,7 +88,7 @@ const TheaterDetails = () => {
                 // 3. Fetch showtimes screen-wise in PARALLEL
                 const screenPromises = screens.map((screen: any) =>
                     fetch(
-                        `http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/screens/${screen.id}`,
+                        `/api/screens/${screen.id}`,
                         { headers: { Authorization: `Bearer ${token}` } }
                     ).then(r => r.json())
                 )

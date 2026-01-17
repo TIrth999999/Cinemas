@@ -19,7 +19,7 @@ const MyTicket = () => {
             if (!token) return
 
             try {
-                const res = await fetch("http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/orders", {
+                const res = await fetch("/api/orders", {
                     method: "GET",
                     headers: {
                         "Authorization": `Bearer ${token}`

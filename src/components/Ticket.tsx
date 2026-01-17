@@ -50,7 +50,7 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
                 // Let's assume we fetch all orders and find by ID (inefficient but safe with current knowledge).
                 // **Safe Bet**: Fetch all orders and find by ID (inefficient but safe with current knowledge).
 
-                const res = await fetch("http://ec2-13-201-98-117.ap-south-1.compute.amazonaws.com:3000/orders", {
+                const res = await fetch("/api/orders", {
                     headers: { "Authorization": `Bearer ${token}` }
                 })
 
