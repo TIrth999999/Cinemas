@@ -84,17 +84,66 @@
     font-size: 1.2rem;
 }
 
+/* Mobile Fallback UI */
+.notfound-mobile-container {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #050505;
+    padding: 20px;
+    text-align: center;
+    color: #ffffff;
+}
+
+.notfound-mobile-content h1 {
+    font-size: 6rem;
+    margin: 0;
+    background: linear-gradient(45deg, #1090DF, #00ff00);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 900;
+}
+
+.notfound-mobile-content h2 {
+    font-size: 1.8rem;
+    margin: 10px 0;
+    color: #ffffff;
+}
+
+.notfound-mobile-content p {
+    color: #aaaaaa;
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.notfound-mobile-home-btn {
+    background: #1090DF;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 auto;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(16, 144, 223, 0.4);
+}
+
+.notfound-mobile-home-btn:hover {
+    background: #0d7cb8;
+    transform: translateY(-2px);
+}
+
 @media (max-width: 768px) {
     .notfound-home-btn {
-        bottom: 20px;
-        right: 20px;
-        padding: 0.7rem 1.4rem;
-        font-size: 0.9rem;
-    }
-
-    .notfound-lock-hint {
-        padding: 15px 30px;
-        font-size: 1.2rem;
-        width: 80%;
+        display: none;
     }
 }

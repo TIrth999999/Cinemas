@@ -6,10 +6,17 @@ const NotFound404 = () => {
     const navigate = useNavigate()
     const canvasRef = useRef<HTMLCanvasElement>(null)
     const [isLocked, setIsLocked] = useState(false)
+    const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
     const isRedirecting = useRef(false)
 
     useEffect(() => {
-        if (!canvasRef.current) return
+        const checkMobile = () => setIsMobile(window.innerWidth < 768)
+        window.addEventListener('resize', checkMobile)
+        return () => window.removeEventListener('resize', checkMobile)
+    }, [])
+
+    useEffect(() => {
+        if (!canvasRef.current || isMobile) return
 
         // Import Three.js from CDN
         const script = document.createElement('script')
@@ -560,7 +567,23 @@ const NotFound404 = () => {
 
         document.head.appendChild(script)
         return () => { if (document.head.contains(script)) document.head.removeChild(script) }
-    }, [])
+    }, [isMobile])
+
+    if (isMobile) {
+        return (
+            <div className="notfound-mobile-container">
+                <div className="notfound-mobile-content">
+                    <h1>404</h1>
+                    <h2>Oops! Page Not Found</h2>
+                    <p>The cinematic adventure you're looking for doesn't exist.</p>
+                    <button className="notfound-mobile-home-btn" onClick={() => navigate('/home')}>
+                        <i className="fas fa-home"></i>
+                        Return Home
+                    </button>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="notfound-3d-container">
