@@ -15,45 +15,55 @@ import TicketPage from './components/Ticket'
 import PaymentFailure from './components/PaymentFailure'
 import Ticket from './components/Ticket'
 import CameraLoader from './components/CameraLoader'
+import Pre404 from './pages/Pre404'
+import NotFound404 from './pages/NotFound404'
+import { useAuth } from './auth/AuthContext'
 
 function App() {
   const [showSplash, setShowSplash] = useState(() => {
-    // Skip splash if already logged in (token exists)
-    return !localStorage.getItem('accessToken')
+    // Check if intro has already been shown in this session
+    const introShown = sessionStorage.getItem('introShown')
+    // Show splash only if intro hasn't been shown yet in this session
+    return !introShown
   })
 
-  // Simulate initial app load check (optional: use session storage to show only once per session)
+  const { isAuthenticated } = useAuth()
+
   useEffect(() => {
-    // If we are not showing splash (because logged in), do nothing
     if (!showSplash) return
 
-    // Only show splash on effective first load or root refresh
-    // For now, simple standard splash
+    // Safety timeout in case onComplete doesn't fire
     const timer = setTimeout(() => {
-      // If we wanted to rely purely on the CameraLoader onComplete, we could.
-      // But a safety timeout is good practice.
+      setShowSplash(false)
+      sessionStorage.setItem('introShown', 'true')
     }, 4000)
+
     return () => clearTimeout(timer)
   }, [showSplash])
 
   const handleIntroComplete = () => {
     setShowSplash(false)
+    // Mark intro as shown for this session
+    sessionStorage.setItem('introShown', 'true')
   }
 
   if (showSplash) {
     return <CameraLoader intro={true} onComplete={handleIntroComplete} />
   }
 
+  // Component to render for catch-all route based on authentication
+  const CatchAllRoute = () => {
+    return isAuthenticated ? <NotFound404 /> : <Pre404 />
+  }
+
   return (
     <>
       <Routes>
-        <Route path="/" element={
-          <Login />
-        } />
-        <Route path="/signup" element={
-          <Signup />
-        } />
-        <Route path="*" element={<>Sorry Page Not Found</>} />
+        {/* Public routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+
+        {/* Protected routes */}
         <Route path="/home" element={
           <ProtectedRoute>
             <Home />
@@ -83,18 +93,20 @@ function App() {
           </ProtectedRoute>
         } />
 
-
         <Route path="/theater/:theaterId" element={
           <ProtectedRoute>
             <TheaterDetails />
           </ProtectedRoute>
         } />
+
         <Route path="/success*" element={<PaymentSuccess />} />
+
         <Route path="/ticket" element={
           <ProtectedRoute>
             <TicketPage />
           </ProtectedRoute>
         } />
+
         <Route path="/cancel/*" element={<PaymentFailure />} />
 
         <Route path="/ticket/:orderId" element={
@@ -103,7 +115,8 @@ function App() {
           </ProtectedRoute>
         } />
 
-
+        {/* Catch-all route - must be last */}
+        <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </>
   )

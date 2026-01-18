@@ -1,7 +1,7 @@
 import './login.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from "../auth/AuthContext"
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useToast } from '../context/ToastContext'
 
 const Login = () => {
@@ -13,6 +13,19 @@ const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPassword, setShowPassword] = useState(false)
+    const audioRef = useRef<HTMLAudioElement | null>(null)
+
+    useEffect(() => {
+        audioRef.current = new Audio('/goliMeme.m4a')
+    }, [])
+
+    const playErrorSound = () => {
+        if (audioRef.current) {
+            audioRef.current.pause()
+            audioRef.current.currentTime = 0
+            audioRef.current.play().catch(e => console.error("Audio play failed:", e))
+        }
+    }
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -25,6 +38,7 @@ const Login = () => {
         // Basic frontend validation
         if (!email || !password) {
             showToast("Please enter email and password", "warning")
+            playErrorSound()
             return
         }
 
@@ -32,6 +46,7 @@ const Login = () => {
         const emailRegex = /^\S+@\S+\.\S+$/
         if (!emailRegex.test(email)) {
             showToast("Please enter a valid email address", "error")
+            playErrorSound()
             return
         }
 
@@ -53,6 +68,7 @@ const Login = () => {
             if (!res.ok) {
                 if (res.status === 401) {
                     showToast("Invalid email or password", "error")
+                    playErrorSound()
                 } else {
                     showToast(result.message || "Login failed", "error")
                 }

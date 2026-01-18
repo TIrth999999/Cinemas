@@ -1,24 +1,16 @@
-import { Navigate, useLocation } from "react-router-dom"
+import { type JSX } from "react"
 import { useAuth } from "./auth/AuthContext"
-import { useEffect, type JSX } from "react"
-import { useToast } from './context/ToastContext'
+import Pre404 from "./pages/Pre404"
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated } = useAuth()
-  const { showToast } = useToast()
-  const location = useLocation()
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      showToast("Please login to access this page", "warning")
-    }
-  }, [isAuthenticated, showToast])
 
   if (!isAuthenticated) {
-    return <Navigate to="/" replace state={{ from: location }} />
+    return <Pre404 />
   }
 
   return children
 }
 
 export default ProtectedRoute
+
