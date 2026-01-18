@@ -3,181 +3,60 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(35deg,
-      #1090DF 0%,
-      #eaf7fd 30%,
-      #ffffff 55%,
-      #e3f4fb 75%,
-      #1090DF 100%);
-  padding: 2rem;
-  position: relative;
-  overflow: hidden;
-}
-
-.pre404-container::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background:
-    repeating-linear-gradient(0deg,
-      rgba(255, 255, 255, 0.03) 0px,
-      transparent 1px,
-      transparent 2px,
-      rgba(255, 255, 255, 0.03) 3px);
-  pointer-events: none;
-  animation: filmGrain 0.5s steps(2) infinite;
-}
-
-@keyframes filmGrain {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-2px);
-  }
+  background-color: #f8f9fa;
+  /* Light clean background */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
 }
 
 .pre404-content {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  max-width: 800px;
-  z-index: 1;
-}
-
-.film-strip {
-  width: 40px;
-  background: rgba(16, 144, 223, 0.1);
-  border: 2px solid rgba(16, 144, 223, 0.3);
-  border-radius: 4px;
-  padding: 1rem 0.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.film-strip-right {
-  order: 3;
-}
-
-.film-hole {
-  width: 20px;
-  height: 20px;
-  background: rgba(16, 144, 223, 0.2);
-  border: 2px solid rgba(16, 144, 223, 0.4);
-  border-radius: 50%;
-}
-
-.pre404-main {
-  flex: 1;
   text-align: center;
-  padding: 3rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  border: 1px solid rgba(16, 144, 223, 0.2);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-}
-
-.pre404-main video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 10px;
+  padding: 2rem;
+  max-width: 600px;
 }
 
 .pre404-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: rgb(16, 144, 223);
-  margin-bottom: 1rem;
-  text-transform: uppercase;
-  letter-spacing: 3px;
-  text-shadow: 0 0 20px rgba(16, 144, 223, 0.5);
-}
-
-.pre404-code {
   font-size: 6rem;
-  font-weight: 900;
-  color: rgba(16, 144, 223, 0.3);
+  font-weight: 700;
+  margin: 0;
+  color: #1090DF;
+  /* Brand color */
   line-height: 1;
-  margin: 1rem 0;
-  text-shadow: 0 0 30px rgba(16, 144, 223, 0.3);
 }
 
-.pre404-message {
-  font-size: 1.5rem;
-  color: #e0e0e0;
-  margin: 1.5rem 0 0.5rem;
-  font-weight: 500;
+.pre404-subtitle {
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 0.5rem 0 1rem;
+  color: #444;
 }
 
-.pre404-submessage {
+.pre404-text {
   font-size: 1.1rem;
-  color: #b0b0b0;
+  color: #666;
   margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .pre404-btn {
-  background: linear-gradient(135deg, rgb(16, 144, 223) 0%, rgb(16, 144, 223) 100%);
-  color: #ffffff;
+  background-color: #1090DF;
+  color: #fff;
   border: none;
-  padding: 1rem 2.5rem;
-  font-size: 1.1rem;
+  padding: 12px 24px;
+  font-size: 1rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(16, 144, 223, 0.4);
   display: inline-flex;
   align-items: center;
-  margin-top: 30px;
-  gap: 0.5rem;
+  gap: 8px;
+  transition: background-color 0.2s;
 }
 
 .pre404-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 144, 223, 0.6);
-  background: linear-gradient(135deg, rgb(16, 144, 223) 0%, rgb(16, 144, 223) 100%);
-}
-
-.pre404-btn:active {
-  transform: translateY(0);
+  background-color: #0d7ac0;
 }
 
 .pre404-btn i {
-  font-size: 1.2rem;
-}
-
-@media (max-width: 768px) {
-  .film-strip {
-    display: none;
-  }
-
-  .pre404-title {
-    font-size: 2rem;
-  }
-
-  .pre404-code {
-    font-size: 4rem;
-  }
-
-  .pre404-message {
-    font-size: 1.2rem;
-  }
-
-  .pre404-submessage {
-    font-size: 1rem;
-  }
-
-  .pre404-main {
-    padding: 2rem 1.5rem;
-  }
+  font-size: 1rem;
 }

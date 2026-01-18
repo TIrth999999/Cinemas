@@ -7,31 +7,18 @@ const Pre404 = () => {
     return (
         <div className="pre404-container">
             <div className="pre404-content">
-                <div className="film-strip">
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                </div>
-
-                <div className="pre404-main">
-                    <video src="loginMeme.mp4" autoPlay loop muted></video>
-
-                    <button
-                        className="pre404-btn"
-                        onClick={() => navigate('/')}
-                    >
-                        <i className="fas fa-sign-in-alt"></i>
-                        Go to Login
-                    </button>
-                </div>
-
-                <div className="film-strip film-strip-right">
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                    <div className="film-hole"></div>
-                </div>
+                <h1 className="pre404-title">404</h1>
+                <h2 className="pre404-subtitle">Page Not Found</h2>
+                <p className="pre404-text">
+                    The page you are looking for does not exist or has been moved.
+                </p>
+                <button
+                    className="pre404-btn"
+                    onClick={() => navigate('/')}
+                >
+                    <i className="fas fa-arrow-left"></i>
+                    Back to Login
+                </button>
             </div>
         </div>
     )
