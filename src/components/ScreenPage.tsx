@@ -157,7 +157,7 @@ const ScreenPage = () => {
     const seatsLeft = seatLimit - selectedSeats.length
 
     if (!layout.length || !show) return (
-        <div className="loading-container" style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="loading-container" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <FilmStrip animated={true} style={{ width: '250px' }}>
                 <h6>Loading...</h6>
             </FilmStrip>

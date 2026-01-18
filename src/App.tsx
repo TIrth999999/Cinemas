@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Home from './pages/Home'
@@ -14,42 +14,17 @@ import PaymentSuccess from './components/PaymentSuccess'
 import TicketPage from './components/Ticket'
 import PaymentFailure from './components/PaymentFailure'
 import Ticket from './components/Ticket'
-import CameraLoader from './components/CameraLoader'
+
 import Pre404 from './pages/Pre404'
 import NotFound404 from './pages/NotFound404'
 import { useAuth } from './auth/AuthContext'
 
 function App() {
-  const [showSplash, setShowSplash] = useState(() => {
-    // Check if intro has already been shown in this session
-    const introShown = sessionStorage.getItem('introShown')
-    // Show splash only if intro hasn't been shown yet in this session
-    return !introShown
-  })
+
 
   const { isAuthenticated } = useAuth()
 
-  useEffect(() => {
-    if (!showSplash) return
 
-    // Safety timeout in case onComplete doesn't fire
-    const timer = setTimeout(() => {
-      setShowSplash(false)
-      sessionStorage.setItem('introShown', 'true')
-    }, 4000)
-
-    return () => clearTimeout(timer)
-  }, [showSplash])
-
-  const handleIntroComplete = () => {
-    setShowSplash(false)
-    // Mark intro as shown for this session
-    sessionStorage.setItem('introShown', 'true')
-  }
-
-  if (showSplash) {
-    return <CameraLoader intro={true} onComplete={handleIntroComplete} />
-  }
 
   // Component to render for catch-all route based on authentication
   const CatchAllRoute = () => {
