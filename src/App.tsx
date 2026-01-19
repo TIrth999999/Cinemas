@@ -24,9 +24,6 @@ function App() {
 
   const { isAuthenticated } = useAuth()
 
-
-
-  // Component to render for catch-all route based on authentication
   const CatchAllRoute = () => {
     return isAuthenticated ? <NotFound404 /> : <Pre404 />
   }
@@ -90,7 +87,6 @@ function App() {
           </ProtectedRoute>
         } />
 
-        {/* Catch-all route - must be last */}
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </>

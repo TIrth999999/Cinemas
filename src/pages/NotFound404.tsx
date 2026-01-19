@@ -81,26 +81,19 @@ const NotFound404 = () => {
             renderer.toneMapping = THREE.ACESFilmicToneMapping
             renderer.toneMappingExposure = 1.0
 
-            // ==========================================
-            // CONTROLS
-            // ==========================================
-            // @ts-ignore
             const controls = new THREE.PointerLockControls(camera, document.body)
 
             controls.addEventListener('lock', () => setIsLocked(true))
             controls.addEventListener('unlock', () => setIsLocked(false))
 
-            // Automatic control lock on page entry
             const tryLock = () => {
                 if (!isRedirecting.current) {
                     controls.lock()
                 }
             }
 
-            // Try auto-locking with a small delay
             setTimeout(tryLock, 500)
 
-            // Fallback: Click anywhere to lock if auto-lock fails
             window.addEventListener('click', tryLock)
 
             const onKeyDown = (event: KeyboardEvent) => {

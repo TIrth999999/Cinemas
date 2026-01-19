@@ -115,8 +115,6 @@ const ScreenPage = () => {
                 const sectionType = getLayoutTypeForSeat(seat)
                 if (!sectionType) return prev
 
-                // CRITICAL: Ensure layoutType matches one of the price categories 
-                // to avoid "Invalid layout type" errors from the backend.
                 const validPriceCategory = prices.find(p => p.layoutType === sectionType)
                 const layoutType = validPriceCategory ? validPriceCategory.layoutType : (prices[0]?.layoutType || sectionType)
 

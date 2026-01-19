@@ -28,11 +28,9 @@ const MovieDetail = () => {
   const [noOfSeat, setnoOfSeat] = useState(1);
   const [showId, setShowId] = useState("")
 
-  // Loading States
   const [isMovieLoading, setIsMovieLoading] = useState(true);
   const [isTimesLoading, setIsTimesLoading] = useState(false);
 
-  // Scroll Ref
   const datesContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollDates = (direction: 'left' | 'right') => {
@@ -95,13 +93,11 @@ const MovieDetail = () => {
   async function findDateTime(mId: string, tId: string) {
     if (!token) return
 
-    // Clear previous data and start loading immediately
     setIsTimesLoading(true);
     setDateTimeMap({});
     setSelectedDate(null);
     setSelectedTheater(tId);
 
-    // Reset scroll position to Left to prevent "shifting" illusion
     if (datesContainerRef.current) {
       datesContainerRef.current.scrollLeft = 0;
     }

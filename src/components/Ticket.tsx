@@ -5,7 +5,7 @@ import { useRef, useEffect, useState } from "react"
 import { CinemaFacadeGraphic } from "./CinemaGraphics"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import FilmStrip from "./FilmStrip"
-import '../components/successFailure.css' // Reusing status card styles if helpful, or inline
+import '../components/successFailure.css' 
 
 import { useToast } from '../context/ToastContext.tsx'
 
@@ -38,17 +38,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
         const fetchOrder = async () => {
             try {
                 const token = localStorage.getItem('accessToken')
-                // Note: Assuming a generic endpoint to get order by ID for the user
-                // If API requires specific endpoint, user might need to adjust.
-                // Using the specific ticket endpoint or generic orders list for now.
-                // The provided JSON suggests /orders might return list, but maybe /orders/:id exists?
-                // Let's assume /orders returns list and filter? Or simpler, if we use the backend 'ticket' route structure?
-                // Actually, let's try GET /orders/:id if it exists, or verify with user.
-                // Given previous code used /payments/verify to get orderId, likely /orders/:id or /ticket/:id is the way.
-                // Reverting to /orders and finding/fetching or simpler:
-                // User's backend logs didn't show /orders/:id. 
-                // Let's assume we fetch all orders and find by ID (inefficient but safe with current knowledge).
-                // **Safe Bet**: Fetch all orders and find by ID (inefficient but safe with current knowledge).
 
                 const res = await fetch("/api/orders", {
                     headers: { "Authorization": `Bearer ${token}` }
@@ -132,8 +121,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
     const seats = order.seatData.seats.map(s => `${s.row}${s.column}`).join(", ")
     const seatCount = order.seatData.seats.length
 
-
-    /* --- VISUAL FOR PENDING --- */
     if (isPending) {
         return (
             <div className="ticket-card-wrapper">
@@ -154,7 +141,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
                         </p>
                     </div>
 
-                    {/* Pending items usually don't have download options */}
                     <div style={{ marginTop: 'auto', paddingTop: '20px', borderTop: '1px dashed #eee' }}>
                         <span style={{ fontSize: '12px', color: '#999' }}>ID: {order.id.slice(0, 8)}</span>
                     </div>
@@ -163,7 +149,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
         )
     }
 
-    /* --- VISUAL FOR CONFIRMED --- */
     return (
         <div className="ticket-card-wrapper" style={{ margin: 'auto' }}>
             {/* Visible Simple Card */}
@@ -204,7 +189,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
                 )}
             </div>
 
-            {/* Hidden Premium Ticket for PDF Generation */}
             <div style={{ position: 'absolute', left: '-9999px', top: 0 }}>
                 <div ref={pdfRef} className="pdf-ticket-template">
                     <div className="pdf-header">
@@ -251,7 +235,7 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
 
                     <div className="pdf-footer">
                         <div className="pdf-barcode">
-                            {/* Simulated Barcode */}
+  
                             {[...Array(40)].map((_, i) => (
                                 <div key={i} style={{
                                     height: '40px',

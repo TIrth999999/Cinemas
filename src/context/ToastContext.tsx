@@ -28,8 +28,7 @@ export const ToastProvider: React.FC<{ children: ReactNode }> = ({ children }) =
                 toast.error(message, { duration })
                 break
             case 'warning':
-                // react-hot-toast doesn't have native 'warning', typically 'error' or custom icon is used.
-                // Using custom icon for warning.
+
                 toast(message, {
                     icon: '⚠️',
                     duration
