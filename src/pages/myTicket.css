@@ -1,5 +1,3 @@
-/* PAGE CONTAINER */
-/* Using .container from existing global styles for consistency */
 
 .ticketList {
     display: flex;
@@ -23,8 +21,6 @@
     margin-top: 50px;
 }
 
-/* TICKET CARD STYLE */
-/* TICKET CARD STYLE */
 .ticket-card {
     border: 1px solid var(--primary-color);
     border-radius: 12px;

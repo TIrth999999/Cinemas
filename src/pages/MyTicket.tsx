@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
+import Navbar from '../components/layout/Navbar'
 import './myTicket.css'
-import Ticket from '../components/Ticket.tsx'
-import type { Order } from '../types.ts'
-import { useToast } from '../context/ToastContext.tsx'
+import Ticket from '../features/booking/Ticket'
+import type { Order } from '../types'
+import { useToast } from '../context/ToastContext'
 
 const MyTicket = () => {
     const [active, setActive] = useState('upcoming')
@@ -45,9 +45,9 @@ const MyTicket = () => {
 
     const now = new Date()
 
-    const completedOrders = orders.filter(order => order.status !== 'PENDING')
-    const upcomingOrders = completedOrders.filter(order => new Date(order.showtime.startTime) > now)
-    const historyOrders = completedOrders.filter(order => new Date(order.showtime.startTime) <= now)
+    const upcomingOrders = orders.filter(order => order.status === 'CONFIRMED' && new Date(order.showtime.startTime) > now)
+
+    const historyOrders = orders.filter(order => order.status !== 'PENDING' && new Date(order.showtime.startTime) <= now)
 
     return (
         <>

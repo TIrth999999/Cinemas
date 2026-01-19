@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
 import { useSearchParams, useNavigate } from "react-router-dom"
 import { Check } from "lucide-react"
-import FilmStrip from "./FilmStrip"
-import './successFailure.css'
+import FilmStrip from "../../components/FilmStrip"
+import '../../components/successFailure.css'
 
-import { useToast } from '../context/ToastContext.tsx'
+import { useToast } from '../../context/ToastContext'
 
 const PaymentSuccess = () => {
     const [searchParams] = useSearchParams()
@@ -38,12 +38,10 @@ const PaymentSuccess = () => {
                     return
                 }
 
-                // If verify fails (e.g. 400 Already Verified), try to find recent order
                 throw new Error("Verification endpoint returned error")
 
             } catch (err) {
                 console.warn("Verification failed, checking recent orders...", err)
-                // Fallback: Check if we have a recent order (created in last 5 mins)
                 try {
                     const token = localStorage.getItem('accessToken')
                     if (!token) throw new Error("No token for fallback")
@@ -61,11 +59,10 @@ const PaymentSuccess = () => {
                         if (latest) {
                             const createdTime = new Date(latest.createdAt).getTime()
                             const now = Date.now()
-                            // If order was created in last 5 minutes, assume it's this one
                             if (now - createdTime < 5 * 60 * 1000) {
                                 setOrderId(latest.id)
                                 showToast("Payment confirmed (via recent orders)", "info")
-                                return // Recovered successfully
+                                return
                             }
                         }
                     }
@@ -73,7 +70,6 @@ const PaymentSuccess = () => {
                     console.error("Fallback failed", fallbackErr)
                 }
 
-                // If fallback also fails, then set error
                 setError("Payment verification failed. Please check My Tickets to confirm.")
                 showToast("Payment verification failed", "error")
             } finally {
@@ -95,7 +91,6 @@ const PaymentSuccess = () => {
         )
     }
 
-    // If error, show error card
     if (error) {
         return (
             <div className="payment-status-container">

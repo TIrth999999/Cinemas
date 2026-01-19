@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom"
-import './successFailure.css'
+import "../../components/successFailure.css"
 
 const PaymentFailure = () => {
   const navigate = useNavigate()

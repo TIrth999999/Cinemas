@@ -5,8 +5,9 @@ import { useToast } from '../context/ToastContext.tsx'
 
 type AuthContextType = {
     token: string | null
+    email: string | null
     isAuthenticated: boolean
-    login: (token: string, expireAt: number) => void
+    login: (token: string, expireAt: number, email: string) => void
     logout: () => void
 }
 
@@ -14,64 +15,85 @@ const AuthContext = createContext<AuthContextType | null>(null)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null)
+    const [email, setEmail] = useState<string | null>(null)
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     const { showToast } = useToast()
 
+    // Listen for axios 401 events
+    useEffect(() => {
+        const handleUnauthorized = () => {
+            showToast("Session expired. Please login again.", "error")
+            logout()
+        };
+
+        window.addEventListener('auth:unauthorized', handleUnauthorized);
+        return () => window.removeEventListener('auth:unauthorized', handleUnauthorized);
+    }, [showToast]);
+
     useEffect(() => {
         const storedToken = localStorage.getItem("accessToken")
         const expireAt = localStorage.getItem("expireAt")
+        const storedEmail = localStorage.getItem("userEmail")
 
         if (storedToken && expireAt) {
             const now = Math.floor(Date.now() / 1000)
 
             if (now < Number(expireAt)) {
                 setToken(storedToken)
+                if (storedEmail) setEmail(storedEmail)
                 setIsAuthenticated(true)
             } else {
                 localStorage.removeItem("accessToken")
                 localStorage.removeItem("expireAt")
+                localStorage.removeItem("userEmail")
             }
         }
-
         setLoading(false)
     }, [])
 
     useEffect(() => {
         const expireAt = localStorage.getItem("expireAt")
-        if (!expireAt) return
+        if (!isAuthenticated || !expireAt) return
 
-        const timeout = Number(expireAt) * 1000 - Date.now()
+        const expirationTimeMs = Number(expireAt) * 1000
+        const nowMs = Date.now()
+        const timeoutDuration = expirationTimeMs - nowMs
 
-        if (timeout <= 0) {
+        if (timeoutDuration <= 0) {
             showToast("Session expired. Please login again.", "info")
             logout()
             return
         }
 
+        console.log(`Auto-logout scheduled in ${timeoutDuration / 1000} seconds`)
+
         const timer = setTimeout(() => {
             showToast("Session expired. Please login again.", "info")
             logout()
-        }, timeout)
+        }, timeoutDuration)
+
         return () => clearTimeout(timer)
-    }, [token, showToast])
+    }, [isAuthenticated, token, showToast])
 
-
-
-    const login = (token: string, expireAt: number) => {
-        localStorage.setItem("accessToken", token)
+    const login = (newToken: string, expireAt: number, userEmail: string) => {
+        localStorage.setItem("accessToken", newToken)
         localStorage.setItem("expireAt", expireAt.toString())
+        localStorage.setItem("userEmail", userEmail)
 
-        setToken(token)
+        setToken(newToken)
+        setEmail(userEmail)
         setIsAuthenticated(true)
     }
 
     const logout = () => {
         localStorage.removeItem("accessToken")
         localStorage.removeItem("expireAt")
+        localStorage.removeItem("userEmail")
 
         setToken(null)
+        setEmail(null)
         setIsAuthenticated(false)
         navigate("/login")
     }
@@ -86,9 +108,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         )
     }
 
-
     return (
-        <AuthContext.Provider value={{ token, isAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ token, email, isAuthenticated, login, logout }}>
             {children}
         </AuthContext.Provider>
     )

@@ -1,10 +1,10 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom'
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/layout/Navbar';
 import './movieDetails.css'
-import type { MovieType } from '../types';
+import type { MovieType } from '../../types';
 
-import { useToast } from '../context/ToastContext.tsx'
+import { useToast } from '../../context/ToastContext.tsx'
 
 const MovieDetail = () => {
   const navigate = useNavigate()
@@ -70,7 +70,6 @@ const MovieDetail = () => {
         const data: MovieType = await res.json()
         setMovie(data)
 
-        // Auto-select first theater if available
         if (data.theaters && data.theaters.length > 0) {
           const firstTheater = data.theaters[0];
           setSelectedTheater(firstTheater.id);
@@ -80,7 +79,8 @@ const MovieDetail = () => {
 
       } catch (err) {
         console.error("Failed to fetch movies:", err)
-        showToast("Failed to load movie details", "error")
+        showToast("Failed to load movie details. Redirecting...", "error")
+        navigate('/home') // Redirect to home or 404
       } finally {
         setIsMovieLoading(false);
       }

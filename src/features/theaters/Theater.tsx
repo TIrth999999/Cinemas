@@ -1,7 +1,7 @@
 import './theater.css'
-import type { TheaterType } from '../types'
+import type { TheaterType } from '../../types'
 import { useNavigate } from 'react-router-dom'
-import { getCinemaGraphic } from './CinemaGraphics'
+import { getCinemaGraphic } from '../../components/CinemaGraphics'
 
 type Props = {
   theater: TheaterType

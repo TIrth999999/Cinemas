@@ -1,27 +1,29 @@
-
-import Login from './pages/Login'
-import Signup from './pages/Signup'
-import Home from './pages/Home'
-import MyTicket from './pages/MyTicket'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import ProtectedRoute from './ProtectedRoute'
-import MovieDetail from './components/MovieDetail'
-import ScreenPage from './components/ScreenPage'
-import BookingDetails from './pages/BookingDetails'
-import TheaterDetails from './components/TheaterDetails'
-import PaymentSuccess from './components/PaymentSuccess'
-import TicketPage from './components/Ticket'
-import PaymentFailure from './components/PaymentFailure'
-import Ticket from './components/Ticket'
 
+// Auth
+import Login from './features/auth/Login'
+import Signup from './features/auth/Signup'
+
+// Protected Features
+import Home from './features/home/Home'
+import MyTicket from './pages/MyTicket'
+import MovieDetail from './features/movies/MovieDetail'
+import ScreenPage from './features/booking/ScreenPage'
+import BookingDetails from './features/booking/BookingDetails'
+import TheaterDetails from './features/theaters/TheaterDetails'
+import PaymentSuccess from './features/booking/PaymentSuccess'
+import PaymentFailure from './features/booking/PaymentFailure'
+import TicketPage from './features/booking/Ticket'
+import Ticket from './features/booking/Ticket'
+
+// Layout/Protection
+import ProtectedRoute from './ProtectedRoute'
 import Pre404 from './pages/Pre404'
 import NotFound404 from './pages/NotFound404'
 import { useAuth } from './auth/AuthContext'
 
 function App() {
-
-
   const { isAuthenticated } = useAuth()
 
   const CatchAllRoute = () => {
@@ -33,59 +35,27 @@ function App() {
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
 
-        {/* Protected routes */}
-        <Route path="/home" element={
-          <ProtectedRoute>
-            <Home />
-          </ProtectedRoute>
-        } />
-        <Route path="/tickets" element={
-          <ProtectedRoute>
-            <MyTicket />
-          </ProtectedRoute>
-        } />
+        {/* Protected routes layout */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/tickets" element={<MyTicket />} />
 
-        <Route path="/movie/:movieId" element={
-          <ProtectedRoute>
-            <MovieDetail />
-          </ProtectedRoute>
-        } />
+          <Route path="/movie/:movieId" element={<MovieDetail />} />
+          <Route path="/theater/:theaterId" element={<TheaterDetails />} />
 
-        <Route path="/selectSeat/:showId" element={
-          <ProtectedRoute>
-            <ScreenPage />
-          </ProtectedRoute>
-        } />
+          <Route path="/selectSeat/:showId" element={<ScreenPage />} />
+          <Route path="/bookingDetails/" element={<BookingDetails />} />
 
-        <Route path="/bookingDetails/" element={
-          <ProtectedRoute>
-            <BookingDetails />
-          </ProtectedRoute>
-        } />
+          <Route path="/success*" element={<PaymentSuccess />} />
+          <Route path="/cancel/*" element={<PaymentFailure />} />
 
-        <Route path="/theater/:theaterId" element={
-          <ProtectedRoute>
-            <TheaterDetails />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/success*" element={<PaymentSuccess />} />
-
-        <Route path="/ticket" element={
-          <ProtectedRoute>
-            <TicketPage />
-          </ProtectedRoute>
-        } />
-
-        <Route path="/cancel/*" element={<PaymentFailure />} />
-
-        <Route path="/ticket/:orderId" element={
-          <ProtectedRoute>
-            <Ticket showHomeButton={true} />
-          </ProtectedRoute>
-        } />
+          {/* Check if TicketPage and Ticket are same */}
+          <Route path="/ticket" element={<TicketPage />} />
+          <Route path="/ticket/:orderId" element={<Ticket showHomeButton={true} />} />
+        </Route>
 
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>

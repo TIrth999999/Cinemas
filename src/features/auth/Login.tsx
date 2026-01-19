@@ -1,8 +1,9 @@
 import './login.css'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useAuth } from "../auth/AuthContext"
+import { useAuth } from "../../auth/AuthContext"
 import { useEffect, useState } from 'react'
-import { useToast } from '../context/ToastContext'
+import { useToast } from '../../context/ToastContext'
+import { authService } from '../../services/authService'
 
 const Login = () => {
     const navigate = useNavigate()
@@ -38,40 +39,27 @@ const Login = () => {
         }
 
         try {
-            const res = await fetch(
-                "/api/auth/login",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ email, password }),
-                }
-            )
+            const result = await authService.login({ email, password })
 
-            const result = await res.json()
+            if (result && result.data && result.data.accessToken) {
+                const { accessToken, expireAt } = result.data
+                login(accessToken, expireAt, email)
+                showToast("Login Successful!", "success")
 
-            // Handle all error responses including 401
-            if (!res.ok) {
-                if (res.status === 401) {
-                    showToast("Invalid email or password", "error")
-                } else {
-                    showToast(result.message || "Login failed", "error")
-                }
-                return
+                const from = location.state?.from?.pathname || "/home"
+                navigate(from, { replace: true })
+            } else {
+                showToast(result.data.message || "Login failed", "error")
             }
 
-            const { accessToken, expireAt } = result.data
-
-            login(accessToken, expireAt)
-            showToast("Login Successful!", "success")
-
-            const from = location.state?.from?.pathname || "/home"
-            navigate(from, { replace: true })
-
-        } catch (err) {
+        } catch (err: any) {
             console.error(err)
-            showToast("Something went wrong. Try again.", "error")
+            const errorMessage = err.response?.data?.message || err.message || "Something went wrong. Try again."
+            if (err.response?.status === 401) {
+                showToast("Invalid email or password", "error")
+            } else {
+                showToast(errorMessage, "error")
+            }
         }
     }
 

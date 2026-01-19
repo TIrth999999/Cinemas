@@ -1,97 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import Card from '../components/Card'
-import Theater from '../components/Theater.tsx'
+import Navbar from '../../components/layout/Navbar'
+import Card from '../../components/common/Card'
+import Theater from '../../features/theaters/Theater'
+import FilmStrip from '../../components/FilmStrip'
 import './home.css'
-import type { CardType } from '../types.ts'
-import type { TheaterType } from '../types.ts'
-import { useToast } from '../context/ToastContext.tsx'
+import { useMovies } from '../../hooks/useMovies'
+import { useTheaters } from '../../hooks/useTheaters'
 
 const Home = () => {
-
     const location = useLocation()
-    const token = localStorage.getItem("accessToken")
-    // Initialize active tab from navigation state if available, default to 'movie'
+
     const [active, setActive] = useState(location.state?.activeTab || 'movie')
-    const [movies, setMovies] = useState<CardType[]>([])
-    const [theaters, setTheaters] = useState<TheaterType[]>([])
-
-    const { showToast } = useToast()
-
-    useEffect(() => {
-        if (!token) return
-
-        const fetchMovies = async () => {
-            try {
-                const res = await fetch(
-                    "/api/movies",
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
-
-                if (!res.ok) {
-                    throw new Error(`HTTP ${res.status}`)
-                }
-
-                const data: CardType[] = await res.json()
-
-                setMovies(data)
-            } catch (err) {
-                console.error("Failed to fetch movies:", err)
-                showToast("Failed to load movies. Please try again later.", "error")
-                setMovies([])
-            }
-        }
-
-
-        fetchMovies()
-    }, [token, showToast])
-
-
-    useEffect(() => {
-        if (!token) return
-
-        const fetchTheaters = async () => {
-            try {
-                const res = await fetch(
-                    "/api/theaters",
-                    {
-                        headers: {
-                            accept: "*/*",
-                            Authorization: `Bearer ${token}`,
-                        },
-                    }
-                )
-
-                if (!res.ok) {
-                    throw new Error(`Theaters fetch failed: ${res.status}`)
-                }
-
-                const data = await res.json()
-
-                if (!Array.isArray(data.data)) {
-                    throw new Error("Theaters data is not an array")
-                }
-
-                setTheaters(data.data)
-            } catch (err) {
-                console.error(err)
-                showToast("Failed to load theaters. Please try again later.", "error")
-                setTheaters([])
-            }
-        }
-
-        fetchTheaters()
-    }, [token, showToast])
-
-
     const [searchQuery, setSearchQuery] = useState('')
 
-    // Filtered lists based on search query
+    const { movies, loading: loadingMovies } = useMovies()
+    const { theaters, loading: loadingTheaters } = useTheaters()
+
     const filteredMovies = movies.filter(movie =>
         movie.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
@@ -99,6 +24,16 @@ const Home = () => {
     const filteredTheaters = theaters.filter(theater =>
         theater.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
+
+    if (loadingMovies || loadingTheaters) {
+        return (
+            <div style={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <FilmStrip animated={true} style={{ width: '200px' }}>
+                    <h6>Loading...</h6>
+                </FilmStrip>
+            </div>
+        )
+    }
 
     return (
         <>

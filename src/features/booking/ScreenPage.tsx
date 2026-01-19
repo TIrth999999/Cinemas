@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
-import FilmStrip from './FilmStrip'
+import FilmStrip from '../../components/FilmStrip'
 import './screenPage.css'
-import type { LayoutBlock, PriceType } from '../types'
-
-import { useToast } from '../context/ToastContext.tsx'
+import type { LayoutBlock, PriceType } from '../../types'
+import { useToast } from '../../context/ToastContext.tsx'
+import SeatGrid from './SeatGrid'
+import axiosClient from '../../api/axiosClient'
 
 type SelectedSeat = {
     seat: string
@@ -24,11 +25,8 @@ const ScreenPage = () => {
     const location = useLocation()
     const seatLimit: number = location.state?.seats || 1
     const previousUrl: string | undefined = location.state?.from
-    // Capture theater details passed from previous page
     const theaterNameState = location.state?.theaterName
     const theaterLocationState = location.state?.theaterLocation
-
-    const token = localStorage.getItem('accessToken')
 
     const [layout, setLayout] = useState<LayoutBlock[]>([])
     const [prices, setPrices] = useState<PriceType[]>([])
@@ -41,7 +39,7 @@ const ScreenPage = () => {
     const isDragging = useRef(false)
     const dragMode = useRef<'select' | 'deselect' | null>(null)
 
-    // Handle global pointer up to stop dragging
+    // Stop dragging globally
     useEffect(() => {
         const handleGlobalPointerUp = () => {
             isDragging.current = false
@@ -52,63 +50,56 @@ const ScreenPage = () => {
     }, [])
 
     useEffect(() => {
-        if (!token || !showId) return
+        if (!showId) return
 
-        fetch(
-            `/api/show-times/${showId}`,
-            { headers: { Authorization: `Bearer ${token}` } }
-        )
-            .then(res => res.json())
-            .then(res => {
-                const showData = res?.data
+        const fetchShowTime = async () => {
+            try {
+                const res = await axiosClient.get(`/show-times/${showId}`)
+                const showData = res.data?.data
                 if (!showData) return
 
                 setShow(showData)
                 setPrices(showData.price)
 
                 const rawLayout = showData.screen.layout
-
-                const parsedLayout =
-                    typeof rawLayout === 'string'
-                        ? JSON.parse(rawLayout)
-                        : rawLayout
+                const parsedLayout = typeof rawLayout === 'string'
+                    ? JSON.parse(rawLayout)
+                    : rawLayout
 
                 setLayout(parsedLayout)
 
                 const booked = new Set<string>()
-
                 showData.orders?.forEach((order: any) => {
                     order.seatData?.seats?.forEach((seat: any) => {
                         booked.add(`${seat.row}${seat.column}`)
                     })
                 })
-
                 setBookedSeatsSet(booked)
-            })
-            .catch(err => {
+
+            } catch (err) {
                 console.error('Fetch failed', err)
                 showToast("Failed to load screen layout", "error")
-            })
-    }, [showId, token, showToast])
+            }
+        }
+
+        fetchShowTime()
+    }, [showId, showToast])
 
 
-    const getLayoutTypeForSeat = (seat: string): string => {
+    const getLayoutTypeForSeat = useCallback((seat: string): string => {
         const row = seat[0]
         const section = layout.find(sec => sec.layout.rows.includes(row))
         return section?.type || ''
-    }
+    }, [layout])
 
-    const toggleSeat = (seat: string, forceMode?: 'select' | 'deselect') => {
+    const toggleSeat = useCallback((seat: string, forceMode?: 'select' | 'deselect') => {
         if (bookedSeatsSet.has(seat)) return
 
         setSelectedSeats(prev => {
             const exists = prev.some(s => s.seat === seat)
-
-            // Determine action: forceMode takes precedence, otherwise toggle
             const shouldSelect = forceMode ? forceMode === 'select' : !exists
 
             if (shouldSelect) {
-                // Prevent selecting if already selected or limit reached
                 if (exists) return prev
                 if (prev.length >= seatLimit) return prev
 
@@ -120,38 +111,36 @@ const ScreenPage = () => {
 
                 return [...prev, { seat, layoutType }]
             } else {
-                // Deselect
                 if (!exists) return prev
                 return prev.filter(s => s.seat !== seat)
             }
         })
-    }
+    }, [bookedSeatsSet, getLayoutTypeForSeat, prices, seatLimit])
 
-    const handlePointerDown = (e: React.PointerEvent, seat: string) => {
-        e.preventDefault() // Prevent text selection/scrolling start
-        if (bookedSeatsSet.has(seat)) return
+    const selectedSeatsRef = useRef(selectedSeats)
+    useEffect(() => { selectedSeatsRef.current = selectedSeats }, [selectedSeats])
 
-        isDragging.current = true
+    const stableHandleSeatAction = useCallback((seat: string, type: 'down' | 'enter', e?: React.PointerEvent) => {
+        if (type === 'down' && e) {
+            e.preventDefault()
+            // access ref
+            const isSelected = selectedSeatsRef.current.some(s => s.seat === seat)
+            dragMode.current = isSelected ? 'deselect' : 'select'
+            isDragging.current = true
+            toggleSeat(seat, dragMode.current)
+        } else if (type === 'enter') {
+            if (isDragging.current && dragMode.current) {
+                toggleSeat(seat, dragMode.current)
+            }
+        }
+    }, [toggleSeat])
 
-        // Check if currently selected to determine mode for this drag session
-        const isSelected = selectedSeats.some(s => s.seat === seat)
-        dragMode.current = isSelected ? 'deselect' : 'select'
-
-        // Apply immediately to the start seat
-        toggleSeat(seat, dragMode.current)
-    }
-
-    const handlePointerEnter = (seat: string) => {
-        if (!isDragging.current || !dragMode.current) return
-        toggleSeat(seat, dragMode.current)
-    }
-
-    const getPriceForType = (layoutType: string) => {
+    const getPriceForTypeCalc = (layoutType: string) => {
         const priceObj = prices.find(p => p.layoutType === layoutType)
         return priceObj?.price || prices[0]?.price || 0
     }
 
-    const totalPrice = selectedSeats.reduce((sum, s) => sum + getPriceForType(s.layoutType), 0)
+    const totalPrice = selectedSeats.reduce((sum, s) => sum + getPriceForTypeCalc(s.layoutType), 0)
     const seatsLeft = seatLimit - selectedSeats.length
 
     if (!layout.length || !show) return (
@@ -193,55 +182,17 @@ const ScreenPage = () => {
                 <h2>Select Seats {seatsLeft > 0 && `(${seatsLeft})`}</h2>
             </div>
 
-            <div className='seats'>
-                {layout.map(section => {
-                    const price = getPriceForType(section.type)
-
-                    return (
-                        <div key={section.type} className="seat-section">
-                            <h6>₹{price} {section.type}</h6>
-                            <hr />
-                            {section.layout.rows.map(row => (
-                                <div key={row} className="seat-row">
-                                    {Array.from({ length: section.layout.columns[1] }, (_, i) => {
-                                        const seat = `${row}${i + 1}`
-                                        const isSelected = selectedSeats.some(s => s.seat === seat)
-                                        const isBooked = bookedSeatsSet.has(seat)
-                                        return (
-                                            <button
-                                                key={seat}
-                                                disabled={isBooked}
-                                                onPointerDown={(e) => handlePointerDown(e, seat)}
-                                                onPointerEnter={() => handlePointerEnter(seat)}
-                                                style={{
-                                                    cursor: isBooked ? 'not-allowed' : 'pointer',
-                                                    touchAction: 'none', // Prevent scrolling while dragging
-                                                    backgroundColor: isBooked
-                                                        ? '#444'
-                                                        : isSelected
-                                                            ? '#4caf50'
-                                                            : '#fff',
-                                                    color: isBooked ? '#aaa' : '#000',
-                                                    border: isBooked ? '1px solid #666' : '1px solid #000',
-                                                    opacity: isBooked ? 0.6 : 1
-                                                }}
-                                            >
-                                                {seat}
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            ))}
-                        </div>
-                    )
-                })}
-                <div className='theater-screen'></div>
-                <p>All eyes this way please!</p>
-            </div>
+            {/* Render the memoized grid */}
+            <SeatGrid
+                layout={layout}
+                prices={prices}
+                selectedSeats={selectedSeats}
+                bookedSeatsSet={bookedSeatsSet}
+                onSeatAction={stableHandleSeatAction}
+            />
 
             <hr />
 
-            {/* Pay button */}
             <div
                 className={`pay-btn ${selectedSeats.length < seatLimit ? 'disabled' : ''}`}
                 onClick={() => {

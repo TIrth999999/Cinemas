@@ -1,15 +1,12 @@
 import { useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import './bookingDetails.css'
-import { useToast } from '../context/ToastContext.tsx'
+import { useToast } from '../../context/ToastContext.tsx'
 
 const BookingDetails = () => {
 
     const location = useLocation()
     const state = location.state
-
-    // No local payment UI state needed anymore
-    // const [showPayment, setShowPayment] = useState(false) 
 
     const totalPrice: number = state?.totalPrice || 0;
     const selectedSeats: { seat: string; layoutType: string }[] = state?.bookedSeats || [];
@@ -82,7 +79,7 @@ const BookingDetails = () => {
     }, [state, navigate, showToast])
 
     if (!state || !state.showId) {
-        return null // Render nothing while redirecting
+        return null
     }
 
 

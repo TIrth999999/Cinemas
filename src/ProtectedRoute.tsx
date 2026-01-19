@@ -1,15 +1,14 @@
-import { type JSX } from "react"
+import { Outlet, Navigate } from "react-router-dom"
 import { useAuth } from "./auth/AuthContext"
-import Pre404 from "./pages/Pre404"
 
-const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+const ProtectedRoute = () => {
   const { isAuthenticated } = useAuth()
 
   if (!isAuthenticated) {
-    return <Pre404 />
+    return <Navigate to="/" replace />
   }
 
-  return children
+  return <Outlet />
 }
 
 export default ProtectedRoute

@@ -1,13 +1,13 @@
-import type { Order } from "../types"
+import type { Order } from "../../types"
 import jsPDF from 'jspdf'
 import html2canvas from 'html2canvas'
 import { useRef, useEffect, useState } from "react"
-import { CinemaFacadeGraphic } from "./CinemaGraphics"
+import { CinemaFacadeGraphic } from "../../components/CinemaGraphics"
 import { useParams, Link, useNavigate } from "react-router-dom"
-import FilmStrip from "./FilmStrip"
-import '../components/successFailure.css' 
+import FilmStrip from "../../components/FilmStrip"
+import '../../components/successFailure.css'
 
-import { useToast } from '../context/ToastContext.tsx'
+import { useToast } from '../../context/ToastContext'
 
 type Props = {
     order?: Order | null
@@ -22,7 +22,6 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
     const [error, setError] = useState<string | null>(null)
     const { showToast } = useToast()
 
-    // Fetch order if not provided via props
     useEffect(() => {
         if (propOrder) {
             setOrder(propOrder)
@@ -235,7 +234,7 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
 
                     <div className="pdf-footer">
                         <div className="pdf-barcode">
-  
+
                             {[...Array(40)].map((_, i) => (
                                 <div key={i} style={{
                                     height: '40px',

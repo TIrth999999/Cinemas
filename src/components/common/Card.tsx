@@ -1,5 +1,5 @@
 import './card.css'
-import type { CardType } from '../types'
+import type { CardType } from '../../types'
 import { useNavigate } from 'react-router-dom'
 
 type Props = {

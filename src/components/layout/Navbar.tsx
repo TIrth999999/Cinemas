@@ -1,9 +1,9 @@
 import './navbar.css'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../../auth/AuthContext'
 
 
-import { useToast } from '../context/ToastContext'
+import { useToast } from '../../context/ToastContext'
 
 interface NavbarProps {
   page: string

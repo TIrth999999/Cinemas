@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import './signup.css'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../auth/AuthContext'
-import { useToast } from '../context/ToastContext'
+import { useAuth } from '../../auth/AuthContext'
+import { useToast } from '../../context/ToastContext'
+import { authService } from '../../services/authService'
 
 const Signup = () => {
 
@@ -45,24 +46,7 @@ const Signup = () => {
         }
 
         try {
-            const res = await fetch(
-                "/api/auth/signup",
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ firstName: fName, lastName: lName, email, password }),
-                }
-            )
-
-            const result = await res.json()
-
-            if (!res.ok) {
-                showToast(result.message || "Registration failed", "error")
-                return
-            }
-
+            await authService.signup({ firstName: fName, lastName: lName, email, password })
 
             showToast("Registration Successful! Please Login Now", "success")
             setfName('')
@@ -70,9 +54,10 @@ const Signup = () => {
             setEmail('')
             setPassword('')
             // navigate("/")
-        } catch (err) {
+        } catch (err: any) {
             console.error(err)
-            showToast("Something went wrong. Try again.", "error")
+            const errorMessage = err.response?.data?.message || err.message || "Something went wrong. Try again."
+            showToast(errorMessage, "error")
         }
     }
 

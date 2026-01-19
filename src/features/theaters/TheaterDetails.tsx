@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useLocation, useNavigate } from 'react-router-dom'
-import Navbar from '../components/Navbar'
-import FilmStrip from '../components/FilmStrip'
-import { useToast } from '../context/ToastContext.tsx'
+import Navbar from '../../components/layout/Navbar'
+import FilmStrip from '../../components/FilmStrip'
+import { useToast } from '../../context/ToastContext.tsx'
 import './theaterDetails.css'
 
 type ShowTime = {
@@ -51,13 +51,25 @@ const TheaterDetails = () => {
 
         const loadSchedule = async () => {
             try {
-                // 0. Fetch theater details if missing
+                const promises: Promise<any>[] = [
+                    fetch(`/api/theaters/${theaterId}/movies`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
+                    fetch(`/api/theaters/${theaterId}/screens`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
+                ]
+                let fetchTheaterDetails = false;
                 if (theaterDetails.name === 'Theater') {
-                    const theaterRes = await fetch(
-                        `/api/theaters/${theaterId}`,
-                        { headers: { Authorization: `Bearer ${token}` } }
+                    fetchTheaterDetails = true;
+                    promises.push(
+                        fetch(`/api/theaters/${theaterId}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
                     )
-                    const theaterData = await theaterRes.json()
+                }
+
+                const results = await Promise.all(promises)
+                const moviesData = results[0]
+                const screens = results[1]
+
+                // If theater details were fetched, update state
+                if (fetchTheaterDetails) {
+                    const theaterData = results[2]
                     if (theaterData?.data) {
                         setTheaterDetails({
                             name: theaterData.data.name,
@@ -66,22 +78,8 @@ const TheaterDetails = () => {
                     }
                 }
 
-                // 1. Fetch movies in theater
-                const moviesRes = await fetch(
-                    `/api/theaters/${theaterId}/movies`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                )
-                const moviesData = await moviesRes.json()
-
                 const movieMap = new Map<string, any>()
                 moviesData.data.movies.forEach((m: any) => movieMap.set(m.id, m))
-
-                // 2. Fetch screens
-                const screensRes = await fetch(
-                    `/api/theaters/${theaterId}/screens`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                )
-                const screens = await screensRes.json()
 
                 const grouped: Record<string, MovieSlot[]> = {}
 
@@ -92,7 +90,6 @@ const TheaterDetails = () => {
                         { headers: { Authorization: `Bearer ${token}` } }
                     ).then(r => r.json())
                 )
-
                 const screensData = await Promise.all(screenPromises)
 
                 for (const screenData of screensData) {
@@ -147,7 +144,6 @@ const TheaterDetails = () => {
                 const dates = Object.keys(grouped).sort()
                 setSchedule(grouped)
 
-                // Only set activeDate if not already set or invalid
                 if (dates.length > 0) {
                     setActiveDate(prev => prev && dates.includes(prev) ? prev : dates[0])
                 }
@@ -189,12 +185,10 @@ const TheaterDetails = () => {
     }
 
     const getCategoryStyle = (category: string) => {
-        // Generate a persistent color based on string hash
         let hash = 0;
         for (let i = 0; i < category.length; i++) {
             hash = category.charCodeAt(i) + ((hash << 5) - hash);
         }
-        // Use HSL for vibrant, distinct colors (Hue: 0-360, Sat: 70%, Light: 45%)
         const h = Math.abs(hash) % 360;
         return {
             '--cat-color': `hsl(${h}, 70%, 45%)`,
