@@ -28,7 +28,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
           </div>
           <div className='btnLink'>
             <ul>
-              <li className='active'>
+              <li className='active' onClick={() => navigate('/home')}>
                 Home
               </li>
               <li onClick={() => navigate('/tickets')}>
@@ -55,7 +55,7 @@ const Navbar: React.FC<NavbarProps> = ({ page }) => {
               <li onClick={() => navigate('/home')}>
                 Home
               </li>
-              <li className='active'>
+              <li className='active' onClick={() => navigate('/tickets')}>
                 My Ticket
               </li>
             </ul>
