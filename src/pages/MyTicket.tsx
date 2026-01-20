@@ -51,7 +51,7 @@ const MyTicket = () => {
 
     const now = new Date()
 
-    const upcomingOrders = orders.filter(order => order.status === 'CONFIRMED' && new Date(order.showtime.startTime) > now)
+    const upcomingOrders = orders.filter(order => order.status === 'COMPLETED' && new Date(order.showtime.startTime) > now)
 
     const historyOrders = orders.filter(order => order.status !== 'PENDING' && new Date(order.showtime.startTime) <= now)
 

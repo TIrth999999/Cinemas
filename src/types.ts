@@ -54,7 +54,7 @@ export type Order = {
   transactionId: string;
   userId: string;
   showtimeId: string;
-  status: 'PENDING' | 'CONFIRMED' | 'CANCELLED';
+  status: 'PENDING' | 'COMPLETED' | 'CANCELLED';
   totalPrice: number;
   seatData: {
     seats: SeatData[];
