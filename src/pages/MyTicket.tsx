@@ -31,10 +31,16 @@ const MyTicket = () => {
                     data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
                     setOrders(data)
                 } else {
+                    // For 401, dispatch event and let global handler manage it
+                    if (res.status === 401) {
+                        window.dispatchEvent(new Event('auth:unauthorized'));
+                        return;
+                    }
                     showToast("Failed to fetch tickets", "error")
                 }
             } catch (err) {
                 console.error("Failed to fetch orders", err)
+                // Don't show toast for 401 errors - handled globally
                 showToast("Something went wrong while loading tickets", "error")
             } finally {
                 setLoading(false)

@@ -13,9 +13,12 @@ export const useMovies = () => {
             try {
                 const response = await axiosClient.get<CardType[]>('/movies');
                 setMovies(response.data);
-            } catch (err) {
+            } catch (err: any) {
                 console.error(err);
-                showToast("Failed to load movies. Please try again later.", "error");
+                // Don't show toast for 401 errors - handled globally
+                if (err.response?.status !== 401) {
+                    showToast("Failed to load movies. Please try again later.", "error");
+                }
             } finally {
                 setLoading(false);
             }

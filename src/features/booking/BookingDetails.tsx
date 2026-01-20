@@ -64,9 +64,12 @@ const BookingDetails = () => {
             redirectUrl.searchParams.set("orderId", data.orderId)
             window.location.href = data.paymentUrl
 
-        } catch (err) {
+        } catch (err: any) {
             console.error(err)
-            showToast('Unable to initiate payment. Please try again.', 'error')
+            // Don't show toast for 401 errors - handled globally
+            if (!err.message?.includes('401')) {
+                showToast('Unable to initiate payment. Please try again.', 'error')
+            }
         }
     }
 

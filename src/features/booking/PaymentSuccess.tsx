@@ -40,8 +40,12 @@ const PaymentSuccess = () => {
 
                 throw new Error("Verification endpoint returned error")
 
-            } catch (err) {
+            } catch (err: any) {
                 console.warn("Verification failed, checking recent orders...", err)
+                // Don't show toast for 401 errors - handled globally
+                if (err.message?.includes('401')) {
+                    return
+                }
                 try {
                     const token = localStorage.getItem('accessToken')
                     if (!token) throw new Error("No token for fallback")
@@ -66,7 +70,7 @@ const PaymentSuccess = () => {
                             }
                         }
                     }
-                } catch (fallbackErr) {
+                } catch (fallbackErr: any) {
                     console.error("Fallback failed", fallbackErr)
                 }
 

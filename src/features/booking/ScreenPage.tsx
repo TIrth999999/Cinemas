@@ -33,6 +33,8 @@ const ScreenPage = () => {
     const [selectedSeats, setSelectedSeats] = useState<SelectedSeat[]>([])
     const [show, setShow] = useState<ShowType | null>(null)
     const [bookedSeatsSet, setBookedSeatsSet] = useState<Set<string>>(new Set())
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(false)
 
     const { showToast } = useToast()
 
@@ -76,9 +78,16 @@ const ScreenPage = () => {
                 })
                 setBookedSeatsSet(booked)
 
-            } catch (err) {
+            } catch (err: any) {
                 console.error('Fetch failed', err)
-                showToast("Failed to load screen layout", "error")
+                // Don't show toast or redirect for 401 errors - handled globally
+                if (err.response?.status !== 401) {
+                    showToast("Show not found", "error")
+                    setError(true)
+                    setTimeout(() => navigate('/404'), 1000)
+                }
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -143,13 +152,15 @@ const ScreenPage = () => {
     const totalPrice = selectedSeats.reduce((sum, s) => sum + getPriceForTypeCalc(s.layoutType), 0)
     const seatsLeft = seatLimit - selectedSeats.length
 
-    if (!layout.length || !show) return (
+    if (loading) return (
         <div className="loading-container" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <FilmStrip animated={true} style={{ width: '250px' }}>
                 <h6>Loading...</h6>
             </FilmStrip>
         </div>
     )
+
+    if (error || !layout.length || !show) return null
 
     const bookingData = {
         totalPrice,

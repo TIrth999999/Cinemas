@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+import { createContext, useContext, useEffect, useRef, useState } from "react"
 import FilmStrip from '../components/FilmStrip'
 import { useNavigate } from "react-router-dom"
 import { useToast } from '../context/ToastContext.tsx'
@@ -20,10 +20,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     const { showToast } = useToast()
+    const isHandlingUnauthorized = useRef(false)
 
     // Listen for axios 401 events
     useEffect(() => {
         const handleUnauthorized = () => {
+            // If already handling an unauthorized event, ignore subsequent ones
+            if (isHandlingUnauthorized.current) return;
+
+            isHandlingUnauthorized.current = true;
             showToast("Session expired. Please login again.", "error")
             logout()
         };
@@ -64,7 +69,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (timeoutDuration <= 0) {
             showToast("Session expired. Please login again.", "info")
             logout()
-            return
         }
 
         console.log(`Auto-logout scheduled in ${timeoutDuration / 1000} seconds`)
@@ -85,6 +89,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setToken(newToken)
         setEmail(userEmail)
         setIsAuthenticated(true)
+
+        // Reset the flag so we can handle 401s again after login
+        isHandlingUnauthorized.current = false
     }
 
     const logout = () => {

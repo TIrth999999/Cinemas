@@ -57,6 +57,8 @@ function App() {
           <Route path="/ticket/:orderId" element={<Ticket showHomeButton={true} />} />
         </Route>
 
+        <Route path="/404" element={<NotFound404 />} />
+        {/* Catch-all route */}
         <Route path="*" element={<CatchAllRoute />} />
       </Routes>
     </>

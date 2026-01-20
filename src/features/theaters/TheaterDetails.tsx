@@ -52,14 +52,32 @@ const TheaterDetails = () => {
         const loadSchedule = async () => {
             try {
                 const promises: Promise<any>[] = [
-                    fetch(`/api/theaters/${theaterId}/movies`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json()),
-                    fetch(`/api/theaters/${theaterId}/screens`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
+                    fetch(`/api/theaters/${theaterId}/movies`, { headers: { Authorization: `Bearer ${token}` } }).then(r => {
+                        if (r.status === 401) {
+                            window.dispatchEvent(new Event('auth:unauthorized'));
+                            throw new Error('Unauthorized');
+                        }
+                        return r.json();
+                    }),
+                    fetch(`/api/theaters/${theaterId}/screens`, { headers: { Authorization: `Bearer ${token}` } }).then(r => {
+                        if (r.status === 401) {
+                            window.dispatchEvent(new Event('auth:unauthorized'));
+                            throw new Error('Unauthorized');
+                        }
+                        return r.json();
+                    })
                 ]
                 let fetchTheaterDetails = false;
                 if (theaterDetails.name === 'Theater') {
                     fetchTheaterDetails = true;
                     promises.push(
-                        fetch(`/api/theaters/${theaterId}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => r.json())
+                        fetch(`/api/theaters/${theaterId}`, { headers: { Authorization: `Bearer ${token}` } }).then(r => {
+                            if (r.status === 401) {
+                                window.dispatchEvent(new Event('auth:unauthorized'));
+                                throw new Error('Unauthorized');
+                            }
+                            return r.json();
+                        })
                     )
                 }
 
@@ -147,9 +165,13 @@ const TheaterDetails = () => {
                 if (dates.length > 0) {
                     setActiveDate(prev => prev && dates.includes(prev) ? prev : dates[0])
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.error('Failed to load theater schedule', err)
-                showToast("Failed to load theater schedule due to a network error", "error")
+                // Don't show toast or redirect for 401 errors - handled globally
+                if (err.message !== 'Unauthorized') {
+                    showToast("Theater not found", "error")
+                    setTimeout(() => navigate('/404'), 1000)
+                }
             } finally {
                 setLoading(false)
             }

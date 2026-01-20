@@ -48,13 +48,21 @@ const Ticket = ({ order: propOrder, showHomeButton }: Props) => {
                     if (found) setOrder(found)
                     else setError("Order not found")
                 } else {
+                    // For 401, dispatch event and let global handler manage it
+                    if (res.status === 401) {
+                        window.dispatchEvent(new Event('auth:unauthorized'));
+                        return;
+                    }
                     setError("Failed to load order")
                     showToast("Failed to load ticket details", "error")
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.error(err)
-                setError("Error loading ticket")
-                showToast("Network error while loading ticket", "error")
+                // Don't show toast for 401 errors - handled globally
+                if (!err.message?.includes('401')) {
+                    setError("Error loading ticket")
+                    showToast("Network error while loading ticket", "error")
+                }
             } finally {
                 setLoading(false)
             }

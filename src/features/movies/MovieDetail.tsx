@@ -64,6 +64,12 @@ const MovieDetail = () => {
         )
 
         if (!res.ok) {
+          // For 401, let the global handler deal with it (via axiosClient interceptor won't catch this)
+          // But fetch doesn't trigger the event, so we need to dispatch it manually
+          if (res.status === 401) {
+            window.dispatchEvent(new Event('auth:unauthorized'));
+            return; // Don't show error or redirect
+          }
           throw new Error(`HTTP ${res.status}`)
         }
 
@@ -77,10 +83,13 @@ const MovieDetail = () => {
           findDateTime(data.id, firstTheater.id);
         }
 
-      } catch (err) {
+      } catch (err: any) {
         console.error("Failed to fetch movies:", err)
-        showToast("Failed to load movie details. Redirecting...", "error")
-        navigate('/home') // Redirect to home or 404
+        // Don't show toast or redirect for 401 errors - handled globally
+        if (!err.message?.includes('401')) {
+          showToast("Movie not found", "error")
+          setTimeout(() => navigate('/404'), 1000) // Navigate to 404 page
+        }
       } finally {
         setIsMovieLoading(false);
       }
@@ -111,7 +120,13 @@ const MovieDetail = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       )
 
-      if (!res.ok) throw new Error(`HTTP ${res.status}`)
+      if (!res.ok) {
+        if (res.status === 401) {
+          window.dispatchEvent(new Event('auth:unauthorized'));
+          return;
+        }
+        throw new Error(`HTTP ${res.status}`)
+      }
 
       const screens = await res.json()
 
@@ -175,9 +190,12 @@ const MovieDetail = () => {
         setSelectedDate(null)
       }
 
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to fetch date/time:", err)
-      showToast("Failed to fetch showtimes", "error")
+      // Don't show toast for 401 errors - handled globally
+      if (!err.message?.includes('401')) {
+        showToast("Failed to fetch showtimes", "error")
+      }
     } finally {
       setIsTimesLoading(false);
     }

@@ -17,9 +17,12 @@ export const useTheaters = () => {
                 } else {
                     throw new Error("Invalid data format");
                 }
-            } catch (err) {
+            } catch (err: any) {
                 console.error(err);
-                showToast("Failed to load theaters. Please try again later.", "error");
+                // Don't show toast for 401 errors - handled globally
+                if (err.response?.status !== 401) {
+                    showToast("Failed to load theaters. Please try again later.", "error");
+                }
             } finally {
                 setLoading(false);
             }
